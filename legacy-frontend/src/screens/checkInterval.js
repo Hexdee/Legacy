@@ -105,7 +105,7 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
           />
         </Box>
         <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Check In</CustomButton>
-        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Edit my Legacy</CustomButton>
+        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Edit my Legacy</CustomButton>
         {/* <Text fontSize="40px" textAlign="center">Select Check in Interval</Text>
         <Box fontSize="14px" m="0 auto">
             <form>

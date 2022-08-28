@@ -107,16 +107,17 @@ const SelectTokens = ({ handdleProceed }) => {
                     asset to <br/>your next of kin.
                 </Text>
 
-                <Box bg="brand.dark" w="100%" m="40px auto" p="20px" borderRadius="10px">
+                <Box bg="brand.white" w="100%" m="40px auto" p="20px" borderRadius="10px">
                     <CustomButton bg="brand.primary" color="brand.white" mb="30px" hoverColor="brand.yellow" onClick={selectAll}>Select All</CustomButton>
                     <SimpleGrid columns="4" spacing="10">
                         {tokens.length ? tokens.map((token) => (
-                            <Box w="230px">
+                            <Box w="230px" boxShadow="rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px" borderRadius="10px">
                                 <Flex color="brand.dark" bg="brand.white" p="15px" h="95px" borderRadius="10px" alignItems="center" justifyContent="center">
                                     <Text>{token.symbol}</Text>
                                 </Flex>
-                                <Flex color="brand.white" alignItems="center" cursor="pointer" _hover={{ color: 'brand.yellow' }} fontSize="14px" justifyContent="space-between" p="10px 20px">
-                                    <Box>{transfer}</Box>
+                                <Flex color="brand.dark" alignItems="center" cursor="pointer" _hover={{ color: 'brand.primary' }} fontSize="14px" justifyContent="space-between" p="10px 20px">
+                                    {/* <Box>{transfer}</Box> */}
+                                    <Text fontSize="10px" color="brand.primary">Token {tokens.id}</Text>
                                     <Text onClick={() => selectToken(token)}>Select</Text>
                                 </Flex>
                             </Box>
