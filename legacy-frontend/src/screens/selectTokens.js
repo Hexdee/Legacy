@@ -2,9 +2,67 @@ import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import logo from '../../src/icons/logo.svg';
 import { transfer } from "../utils/svg";
+import { useEffect, useState } from "react";
+import {ethers} from "ethers";
 
 const SelectTokens = ({ handdleProceed }) => {
-    const tokens = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
+    const tkns = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
+    const [tokens, setTokens] = useState([]);
+
+    const getUser = () => {
+        return localStorage.getItem('legacy_user');
+    }
+
+    useEffect(() => {
+        const user = getUser();
+        if(!user) {
+            return;
+        }
+
+        const url = new URL(`https://deep-index.moralis.io/api/v2/0xf7617Dd41b95a6B169C28766e2C2Ba4aB75Ba3aD/erc20?chain=mumbai`);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-Key': '4QdwNluHelpTw9qmoAXTsaodpYXP1E1cpdrRmqbTGf9sPhO9hBFPrRydJxkl5TPP'
+            }
+        }).then(async(res) => {
+            const res_json = await res.json();
+            // console.log(res_json);
+            setTokens(res_json);
+            // console.log(tokens);
+        })
+    }, []);
+
+    const addTokens = async () => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
+        const signer = provider.getSigner();
+        let tokenAddresses = [];
+
+        // User approve contract to have access to their token
+        tokens.map(async(token) => {
+            const tokenAddress = token.token_address;
+            try {
+                const erc20Abi = ["function approve(address _legatee, uint256 _checkInterval)"];
+                const token = new ethers.Contract(tokenAddress, erc20Abi, signer);
+                const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
+                tokenAddresses.push(tokenAddress);
+            } catch (error) {
+                console.log(error);
+                alert("An error occured!");
+            }
+        })
+
+        // Add tokens to Legacy
+        const legacyAbi = ["function addTokens(address[] memory _tokens)"];
+        const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+        const tx = await legacy.addTokens(tokenAddresses);
+        await tx.wait();
+
+        handdleProceed();
+    }
+
     return (
         <Box padding="30px 80px">
             <Flex justifyContent="space-between" alignItems="center">
@@ -22,7 +80,7 @@ const SelectTokens = ({ handdleProceed }) => {
                     color="brand.white"
                     hoverColor="brand.yellow"
                 >
-                    Authenticate
+                    Connected
                 </CustomButton>
             </Flex>
 
@@ -36,20 +94,20 @@ const SelectTokens = ({ handdleProceed }) => {
                 <Box bg="brand.dark" w="100%" m="40px auto" p="20px" borderRadius="10px">
                     <CustomButton bg="brand.primary" color="brand.white" mb="30px" hoverColor="brand.yellow">Select All</CustomButton>
                     <SimpleGrid columns="4" spacing="10">
-                        {tokens.map((res) => (
+                        {tkns.map((res) => (
                             <Box w="230px">
                                 <Flex color="brand.dark" bg="brand.white" p="15px" h="95px" borderRadius="10px" alignItems="center" justifyContent="center">
                                     <Text>{res}</Text>
                                 </Flex>
                                 <Flex color="brand.white" alignItems="center" cursor="pointer" _hover={{ color: 'brand.yellow' }} fontSize="14px" justifyContent="space-between" p="10px 20px">
                                     <Box>{transfer}</Box>
-                                    <Text>Transfer</Text>
+                                    <Text>Select</Text>
                                 </Flex>
                             </Box>
                         ))}
                     </SimpleGrid>
                 </Box>
-                <CustomButton onClick={handdleProceed}>Proceed</CustomButton>
+                <CustomButton onClick={addTokens}>Proceed</CustomButton>
             </Box>
         </Box>
     )

@@ -1,8 +1,33 @@
 import { Box, Flex, Image, Select, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import logo from "../../src/icons/logo.svg";
+import {ethers} from "ethers";
+import { useState } from "react";
 
 const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
+  const [legatee, setLegatee] = useState();
+  const [interval, setInterval] = useState();
+  const [lastSeen, setLastSeen] = useState();
+
+  const checkIn = async (e) => {
+    e.preventDefault();
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
+      const legacyAbi = ["function checkIn()"];
+      const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+      //TODO
+      //Display loader
+      const tx = await legacy.checkIn();
+      await tx.wait;
+    } catch (error) {
+      alert("An error occured!");
+      return;
+    }
+    handleProceedToSuccess();
+  }
+
   return (
     <Box padding="30px 80px">
       <Flex justifyContent="space-between" alignItems="center">
@@ -20,12 +45,17 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
           color="brand.white"
           hoverColor="brand.yellow"
         >
-          Authenticate
+          Connected
         </CustomButton>
       </Flex>
 
       <Box m="40px auto" w="80%">
-        <Text fontSize="40px" textAlign="center">Select Check in Interval</Text>
+      <Text fontSize="40px" textAlign="center">Profile Page</Text>
+      <Text fontSize="15px" textAlign="left">Next of kin: {legatee}</Text>
+      <Text fontSize="15px" textAlign="left">CheckIn Interval: {interval}</Text>
+      <Text fontSize="15px" textAlign="left">Last seen: {lastSeen}</Text>
+        <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Check In</CustomButton>
+        {/* <Text fontSize="40px" textAlign="center">Select Check in Interval</Text>
         <Box fontSize="14px" m="0 auto">
             <form>
                 <Select
@@ -75,9 +105,9 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
 
                 <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={handleProceedToSuccess}>Proceed</CustomButton>
             </form>
-        </Box>
+        </Box> */}
       </Box>
-    </Box>
+    </Box> 
   );
 };
 

@@ -17,13 +17,19 @@ const Home = ({ handleGetStarted }) => {
     }
 
     const connect = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const signer = await provider.getSigner();
-        const address = await signer.getAddress();
-        localStorage.setItem('legacy_user', address);
-        setUser(address);
+        try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
+            const signer = await provider.getSigner();
+            const address = await signer.getAddress();
+            localStorage.setItem('legacy_user', address);
+            setUser(address);
+        } catch(error) {
+            console.log(error);
+            alert("An error occured!");
+        }
     }
+    
     const handlegetstarted = () => {
         if (getUser()) {
             handleGetStarted();

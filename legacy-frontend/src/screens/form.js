@@ -17,11 +17,16 @@ const Form = ({ handleSecureNow }) => {
       const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
       const legacyAbi = ["function create(address _legatee, uint256 _checkInterval)"]
       const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+      //TODO
+      //Display loader
       const tx = await legacy.create(legatee, checkInterval);
-      handleSecureNow();
+      await tx.wait;
+      localStorage.setItem('has_legacy', 'true');
     } catch (error) {
-      alert("An error occured!")
+      alert("An error occured!");
+      return;
     }
+    handleSecureNow();
   }
 
   const handleLegateeChange = (event) => {
