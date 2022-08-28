@@ -33,7 +33,7 @@ const SuccessMessage = ({ handleGoHome }) => {
         </Text>
       </Box>
 
-      <CustomButton m="0 auto" d="flex" onClick={handleGoHome}>Go Home</CustomButton>
+      <CustomButton m="-20px auto" d="flex" onClick={handleGoHome}>Go Home</CustomButton>
     </Box>
   );
 };

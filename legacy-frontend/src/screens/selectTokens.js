@@ -12,6 +12,8 @@ const SelectTokens = ({ handdleProceed }) => {
     const [selectedTokens, setSelectedTokens] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
+    const tokenId = 1;
+
     const getUser = () => {
         return localStorage.getItem('legacy_user');
     }
@@ -99,16 +101,15 @@ const SelectTokens = ({ handdleProceed }) => {
                     Connected
                 </CustomButton>
             </Flex>
-
+{console.log(tokens)}
             <Box m="40px auto">
                 <Text fontSize="65px" fontWeight="600" color="brand.dark">SELECT TOKENS</Text>
                 <Text color="brand.primary">
                     Kindly select all of your tokens you would like to transfer it's
                     asset to <br/>your next of kin.
                 </Text>
-
-                <Box bg="brand.white" w="100%" m="40px auto" p="20px" borderRadius="10px">
-                    <CustomButton bg="brand.primary" color="brand.white" mb="30px" hoverColor="brand.yellow" onClick={selectAll}>Select All</CustomButton>
+                <Box bg="#F9F9F9" w="100%" m="40px auto" p="40px 30px" borderRadius="10px">
+                    <CustomButton bg="brand.primary" color="brand.white"  mb="30px" hoverColor="brand.yellow" onClick={selectAll}>Select All</CustomButton>
                     <SimpleGrid columns="4" spacing="10">
                         {tokens.length ? tokens.map((token) => (
                             <Box w="230px" boxShadow="rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px" borderRadius="10px">
@@ -117,7 +118,7 @@ const SelectTokens = ({ handdleProceed }) => {
                                 </Flex>
                                 <Flex color="brand.dark" alignItems="center" cursor="pointer" _hover={{ color: 'brand.primary' }} fontSize="14px" justifyContent="space-between" p="10px 20px">
                                     {/* <Box>{transfer}</Box> */}
-                                    <Text fontSize="10px" color="brand.primary">Token {tokens.id}</Text>
+                                    <Text fontSize="10px" color="brand.primary">Token {token.symbol}</Text>
                                     <Text onClick={() => selectToken(token)}>Select</Text>
                                 </Flex>
                             </Box>
@@ -126,7 +127,7 @@ const SelectTokens = ({ handdleProceed }) => {
                         }
                     </SimpleGrid>
                 </Box>
-                <CustomButton isLoading={isLoading} onClick={addTokens}>Proceed</CustomButton>
+                <CustomButton isLoading={isLoading} onClick={addTokens} ml="20px">Proceed</CustomButton>
             </Box>
         </Box>
     )
