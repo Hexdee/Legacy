@@ -5,6 +5,8 @@ import { views } from './utils/constants';
 import { useState } from 'react';
 import Form from './screens/form';
 import SelectTokens from './screens/selectTokens';
+import CheckInterval from './screens/checkInterval';
+import SuccessMessage from './screens/successMsg';
 
 function App() {
   const [ view, setView ] = useState(views.HOME);
@@ -14,7 +16,9 @@ function App() {
         <Home handleGetStarted={(e) => {setView(views.FILL_FORM); e.preventDefault(); } } />
       }
       {view === views.FILL_FORM && <Form handleSecureNow={(e) => { setView(views.SELECT_TOKENS); e.preventDefault(); }} />}
-      {view === views.SELECT_TOKENS && <SelectTokens />}
+      {view === views.SELECT_TOKENS && <SelectTokens handdleProceed={(e) => { setView(views.CHECK_INTERVAL); e.preventDefault(); }} />}
+      {view === views.CHECK_INTERVAL && <CheckInterval handleProceedToSuccess={(e) => { setView(views.DISPLAY_SUCCESS); e.preventDefault(); }} />}
+      {view === views.DISPLAY_SUCCESS && <SuccessMessage handleGoHome={(e) => { setView(views.HOME); e.preventDefault(); } } />}
     </Box>
   );
 }
