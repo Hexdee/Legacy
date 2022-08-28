@@ -45,7 +45,7 @@ export const loading = (
     viewBox="0 0 100 100"
     enable-background="new 0 0 0 0"
   >
-    <circle fill="#F58220" stroke="none" cx="6" cy="50" r="6">
+    <circle fill="##7000FF" stroke="none" cx="6" cy="50" r="6">
       <animateTransform
         attributeName="transform"
         dur="1s"
@@ -55,7 +55,7 @@ export const loading = (
         begin="0.1"
       />
     </circle>
-    <circle fill="#F58220" stroke="none" cx="30" cy="50" r="6">
+    <circle fill="##7000FF" stroke="none" cx="30" cy="50" r="6">
       <animateTransform
         attributeName="transform"
         dur="1s"
@@ -65,7 +65,7 @@ export const loading = (
         begin="0.2"
       />
     </circle>
-    <circle fill="#F58220" stroke="none" cx="54" cy="50" r="6">
+    <circle fill="##7000FF" stroke="none" cx="54" cy="50" r="6">
       <animateTransform
         attributeName="transform"
         dur="1s"
