@@ -3,7 +3,8 @@ import logo from '../../src/icons/logo.svg';
 import CustomButton from '../common/CustomButton';
 import { ethers } from "ethers";
 import { useEffect, useState } from 'react';
-const img = "https://res.cloudinary.com/dboqyj4bp/image/upload/v1661631737/business-home-asset-ideas-concept-with-beautiful-smart-asian-woman-hand-protect-house-model-with-happiness-confident_wxfmet.jpg;"
+import img from '../images/bg.jpeg';
+import { toaster } from 'evergreen-ui';
 
 
 const Home = ({ handleGetStarted }) => {
@@ -26,7 +27,7 @@ const Home = ({ handleGetStarted }) => {
             setUser(address);
         } catch(error) {
             console.log(error);
-            alert("An error occured!");
+            toaster.danger("An error occured!");
         }
     }
     
@@ -35,7 +36,9 @@ const Home = ({ handleGetStarted }) => {
             handleGetStarted();
         }
         else {
-            alert("Please connect wallet first!");
+            toaster.danger('Please connect wallet first!', {
+                duration: 10
+            });
         }
     }
     return (

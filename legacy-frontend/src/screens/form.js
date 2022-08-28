@@ -4,6 +4,7 @@ import CustomButton from "../common/CustomButton";
 import TextInput from "../common/TextInput";
 import {ethers} from "ethers";
 import { useState } from "react";
+import { toaster } from "evergreen-ui";
 
 const Form = ({ handleSecureNow }) => {
   const [legatee, setLagatee] = useState("");
@@ -23,7 +24,7 @@ const Form = ({ handleSecureNow }) => {
       await tx.wait;
       localStorage.setItem('has_legacy', 'true');
     } catch (error) {
-      alert("An error occured!");
+      toaster.danger("An error occured!");
       return;
     }
     handleSecureNow();

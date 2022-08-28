@@ -4,6 +4,7 @@ import logo from '../../src/icons/logo.svg';
 import { transfer } from "../utils/svg";
 import { useEffect, useState } from "react";
 import {ethers} from "ethers";
+import { toaster } from "evergreen-ui";
 
 const SelectTokens = ({ handdleProceed }) => {
     const tkns = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
@@ -51,7 +52,7 @@ const SelectTokens = ({ handdleProceed }) => {
                 tokenAddresses.push(tokenAddress);
             } catch (error) {
                 console.log(error);
-                alert("An error occured!");
+                toaster.danger('An error occured!');
             }
         })
 

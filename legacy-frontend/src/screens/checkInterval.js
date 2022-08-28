@@ -3,6 +3,8 @@ import CustomButton from "../common/CustomButton";
 import logo from "../../src/icons/logo.svg";
 import {ethers} from "ethers";
 import { useEffect, useState } from "react";
+import { toaster } from "evergreen-ui";
+import TextInput from "../common/TextInput";
 
 const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
   const [legatee, setLegatee] = useState();
@@ -33,7 +35,7 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
         })
       })
     } catch (error) {
-      alert("An error occured!");
+      toaster.danger('An error occured!')
       return;
     }
   }, [])
@@ -55,7 +57,7 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
       const tx = await legacy.checkIn();
       await tx.wait;
     } catch (error) {
-      alert("An error occured!");
+      toaster.danger("An error occured!");
       return;
     }
     handleProceedToSuccess();
@@ -82,13 +84,24 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
         </CustomButton>
       </Flex>
 
-      <Box m="40px auto" w="80%">
-      <Text fontSize="40px" textAlign="center">Profile Page</Text>
-      <Text fontSize="15px" textAlign="left">Next of kin: {legatee}</Text>
-      <Text fontSize="15px" textAlign="left">CheckIn Interval: {interval}</Text>
-      <Text fontSize="15px" textAlign="left">Last seen: {lastSeen}</Text>
+      <Box m="40px auto" w="60%">
+        <Text fontSize="40px" textAlign="center">Your Profile Page</Text>
+        <Box w="60%" m="40px auto">
+         <TextInput
+            label="Next of kin"
+            value={legatee}
+          />
+          <TextInput
+            label="CheckIn Interval"
+            value={interval}
+          />
+          <TextInput
+            label="Last seen"
+            value={lastSeen}
+          />
+        </Box>
         <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Check In</CustomButton>
-        <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Edit my Legacy</CustomButton>
+        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Edit my Legacy</CustomButton>
         {/* <Text fontSize="40px" textAlign="center">Select Check in Interval</Text>
         <Box fontSize="14px" m="0 auto">
             <form>
