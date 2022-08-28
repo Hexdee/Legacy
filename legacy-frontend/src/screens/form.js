@@ -22,7 +22,7 @@ const Form = ({ handleSecureNow }) => {
       const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
       //TODO
       //Display loader
-      const tx = await legacy.create(legatee, checkInterval);
+      const tx = await legacy.create(legatee, checkInterval * 3600 * 24);
       await tx.wait;
       localStorage.setItem('has_legacy', 'true');
       setCreateLoading(false);
@@ -102,7 +102,7 @@ const Form = ({ handleSecureNow }) => {
                     onChange={handleLegateeChange}
                 />
                 <TextInput
-                    label="Check Interval (input number of days)"
+                    label="CheckInterval(In Days)"
                     placeholder="Enter how frequently you want to check in"
                     type="number"
                     onChange={handleCheckIntervalChange}

@@ -14,15 +14,17 @@ function App() {
     setView(localStorage.getItem('has_legacy') ? views.CHECK_INTERVAL : views.HOME);
   }, []);
 
+  const handleSecureNow = () => { setView(views.SELECT_TOKENS);}
+
   return (
     <Box>
       {view === views.HOME &&
         <Home handleGetStarted={() => {setView(views.FILL_FORM); } } />
       }
-      {view === views.FILL_FORM && <Form handleSecureNow={() => { setView(views.SELECT_TOKENS);}} />}
+      {view === views.FILL_FORM && <Form handleSecureNow={handleSecureNow} />}
       {view === views.SELECT_TOKENS && <SelectTokens handdleProceed={() => { setView(views.CHECK_INTERVAL);}} />}
-      {view === views.CHECK_INTERVAL && <CheckInterval handleProceedToSuccess={() => { setView(views.DISPLAY_SUCCESS); }} />}
-      {view === views.DISPLAY_SUCCESS && <SuccessMessage handleGoHome={() => { setView(views.HOME); } } />}
+      {view === views.CHECK_INTERVAL && <CheckInterval handleSecureNow={handleSecureNow} handleProceedToSuccess={() => { setView(views.DISPLAY_SUCCESS); }} />}
+      {view === views.DISPLAY_SUCCESS && <SuccessMessage handleProceed={() => { setView(views.HOME); } } />}
     </Box>
   );
 }

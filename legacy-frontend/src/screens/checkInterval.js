@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toaster } from "evergreen-ui";
 import TextInput from "../common/TextInput";
 
-const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
+const CheckInterval = ({ handleSecureNow, handleProceedToSuccess }) => {
   const [legatee, setLegatee] = useState();
   const [interval, setInterval] = useState();
   const [lastSeen, setLastSeen] = useState();
@@ -27,12 +27,12 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
         legacy.legacies(Number(index)).then((res) => {
           setLegatee(res[1]);
           //Convert lastSeen to minutes (just for the sake of demo)
-          let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[2])) / 60 );
-          setLastSeen(`${ls} minutes ago`);
+          let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[2])) / (3600 * 24) );
+          setLastSeen(ls == 0 ? "Today" : `${ls} days ago`);
           //Convert checkInterval to seconds (just for the sake of demo)
           const secs = Number(res[3]);
-          const intervalMins = Math.floor(secs / 60);
-          setInterval(`Every ${intervalMins} minutes`);
+          const intervalMins = Math.floor(secs / (3600 * 24));
+          setInterval(`Every ${intervalMins} days`);
         })
       })
     } catch (error) {
@@ -105,7 +105,8 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
           />
         </Box>
         <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Check In</CustomButton>
-        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Edit my Legacy</CustomButton>
+        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white">Edit my Legacy</CustomButton>
+        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={handleSecureNow}>Add Token</CustomButton>
         {/* <Text fontSize="40px" textAlign="center">Select Check in Interval</Text>
         <Box fontSize="14px" m="0 auto">
             <form>
