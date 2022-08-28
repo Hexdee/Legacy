@@ -2,8 +2,37 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import logo from '../../src/icons/logo.svg';
 import CustomButton from "../common/CustomButton";
 import TextInput from "../common/TextInput";
+import {ethers} from "ethers";
+import { useState } from "react";
 
 const Form = ({ handleSecureNow }) => {
+  const [legatee, setLagatee] = useState("");
+  const [checkInterval, setCheckInterval] = useState();
+
+  const create = async(e) => {
+    e.preventDefault();
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
+      const legacyAbi = ["function create(address _legatee, uint256 _checkInterval)"]
+      const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+      const tx = await legacy.create(legatee, checkInterval);
+      handleSecureNow();
+    } catch (error) {
+      alert("An error occured!")
+    }
+  }
+
+  const handleLegateeChange = (event) => {
+    setLagatee(event.target.value);
+  }
+
+  const handleCheckIntervalChange = (event) => {
+    setCheckInterval(event.target.value);
+  }  
+
+
   return (
     <Box padding="30px 80px">
       <Flex justifyContent="space-between" alignItems="center">
@@ -21,7 +50,7 @@ const Form = ({ handleSecureNow }) => {
           color="brand.white"
           hoverColor="brand.yellow"
         >
-          Authenticate
+          Connected
         </CustomButton>
       </Flex>
 
@@ -33,13 +62,13 @@ const Form = ({ handleSecureNow }) => {
         </Text>
         <Box m="40px auto" w="80%" fontSize="14px">
             <form>
-                <TextInput
+                {/* <TextInput
                     label="Full name"
                     placeholder="Enter your full name"
                     type="text"
-                />
+                /> */}
 
-                <TextInput
+                {/* <TextInput
                     label="Wallet Address"
                     placeholder="Enter your wallet address"
                     type="text"
@@ -54,19 +83,21 @@ const Form = ({ handleSecureNow }) => {
                     label="Name of your next of kin"
                     placeholder="Enter your next of kin"
                     type="text"
-                />
+                /> */}
 
                 <TextInput
                     label="Next of kin wallet address"
                     placeholder="Enter your next of kin wallet address"
                     type="text"
+                    onChange={handleLegateeChange}
                 />
                 <TextInput
-                    label="Next of kin email address"
-                    placeholder="Enter your next of email address"
-                    type="email"
+                    label="CheckInterval"
+                    placeholder="Enter how frequently you want to check in"
+                    type="number"
+                    onChange={handleCheckIntervalChange}
                 />
-                <CustomButton mt="20px" w="100%" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={handleSecureNow}>Secure Now</CustomButton>
+                <CustomButton mt="20px" w="100%" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={create}>Secure Now</CustomButton>
             </form>
         </Box>
       </Box>

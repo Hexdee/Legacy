@@ -10,7 +10,7 @@ module.exports = {
     },
     mumbai: {
       url: `https://rpc-mumbai.maticvigil.com/v1/${secret.APP_ID}`,
-      accounts: [secret.PRIVATE_KEY1, secret.PRIVATE_KEY2 ]
+      accounts: [secret.PRIVATE_KEY]
     }
   },
   etherscan: {

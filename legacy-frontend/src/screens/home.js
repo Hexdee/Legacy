@@ -1,9 +1,37 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import logo from '../../src/icons/logo.svg';
 import CustomButton from '../common/CustomButton';
+import { ethers } from "ethers";
+import { useEffect, useState } from 'react';
+const img = "https://res.cloudinary.com/dboqyj4bp/image/upload/v1661631737/business-home-asset-ideas-concept-with-beautiful-smart-asian-woman-hand-protect-house-model-with-happiness-confident_wxfmet.jpg;"
+
 
 const Home = ({ handleGetStarted }) => {
-    const img = "https://res.cloudinary.com/dboqyj4bp/image/upload/v1661631737/business-home-asset-ideas-concept-with-beautiful-smart-asian-woman-hand-protect-house-model-with-happiness-confident_wxfmet.jpg;"
+    const [user, setUser] = useState("");
+    useEffect(() => {
+        setUser(getUser);
+    }, [user]);
+    
+    const getUser = () => {
+        return localStorage.getItem('legacy_user')
+    }
+
+    const connect = async () => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        localStorage.setItem('legacy_user', address);
+        setUser(address);
+    }
+    const handlegetstarted = () => {
+        if (getUser()) {
+            handleGetStarted();
+        }
+        else {
+            alert("Please connect wallet first!");
+        }
+    }
     return (
         <Box padding="30px 80px">
             <Flex justifyContent="space-between" alignItems="center">
@@ -12,7 +40,11 @@ const Home = ({ handleGetStarted }) => {
                     <Text cursor="pointer" ml="100px" _hover={{ color: 'brand.primary' }}>About us</Text>
                     <Text cursor="pointer" ml="100px" _hover={{ color: 'brand.primary' }}>How it works</Text>
                 </Flex>
-                <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow">Authenticate</CustomButton>
+                {
+                    getUser() ? 
+                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={connect}>Connected</CustomButton> :
+                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={connect}>Authenticate</CustomButton>
+                }
             </Flex>
 
             <Flex mt="100px" alignItems="center">
@@ -31,7 +63,7 @@ const Home = ({ handleGetStarted }) => {
                         family (automatically your next kin)
                     </Text>
 
-                    <CustomButton mt="30px" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={handleGetStarted}>Get Started</CustomButton>
+                    <CustomButton mt="30px" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={handlegetstarted}>Get Started</CustomButton>
                 </Box>
                 
                 <Box width="50%" borderRadius="10px">

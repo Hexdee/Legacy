@@ -13,7 +13,7 @@ function App() {
   return (
     <Box>
       {view === views.HOME &&
-        <Home handleGetStarted={(e) => {setView(views.FILL_FORM); e.preventDefault(); } } />
+        <Home handleGetStarted={() => {setView(views.FILL_FORM); } } />
       }
       {view === views.FILL_FORM && <Form handleSecureNow={(e) => { setView(views.SELECT_TOKENS); e.preventDefault(); }} />}
       {view === views.SELECT_TOKENS && <SelectTokens handdleProceed={(e) => { setView(views.CHECK_INTERVAL); e.preventDefault(); }} />}

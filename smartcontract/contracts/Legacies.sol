@@ -9,15 +9,13 @@ interface IERC20 {
 }
 
 contract Legacies is KeeperCompatible {
-    mapping(string=>address) public tokens;
-    string[] private tokensArray;
     Legacy[] public legacies;
     mapping(address=>uint256) public legacyIndexes;
 
     struct Legacy {
         address owner;
         address legatee;
-        string[] tokens;
+        address[] tokens;
         uint256 lastSeen;
         uint256 checkInterval;
         bool fulfilled;
@@ -27,9 +25,9 @@ contract Legacies is KeeperCompatible {
 
     }
 
-    function create(address _legatee, string[] memory _tokens, uint256 _checkInterval) public {
+    function create(address _legatee, uint256 _checkInterval) public {
         uint256 _index = legacies.length;
-        legacies.push(Legacy(msg.sender, _legatee, _tokens, block.timestamp, _checkInterval, false));
+        legacies.push(Legacy(msg.sender, _legatee, new address[](0), block.timestamp, _checkInterval, false));
         legacyIndexes[msg.sender] = _index;
     }
 
@@ -57,20 +55,14 @@ contract Legacies is KeeperCompatible {
         legacies[_index].lastSeen = block.timestamp;
     }
 
-    function getTokens() public view returns(string[] memory) {
-        return tokensArray;
-    }
-
-    function getLegacyTokens(uint256 _index) public view returns(string[] memory) {
+    function getLegacyTokens(uint256 _index) public view returns(address[] memory) {
         return legacies[_index].tokens;
     }
 
-    function addTokens(string[] memory _symbols, address[] memory _tokens) public {
-        require(_symbols.length == _tokens.length, "unequal argslength!");
-        for (uint256 i = 0; i < _symbols.length; i++) {
-            string memory _symbol = _symbols[i];
-            tokens[_symbol] = _tokens[i];
-            tokensArray.push(_symbol);
+    function addTokens(address[] memory _tokens) public {
+	uint256 _index = legacyIndexes[msg.sender];
+        for (uint256 i = 0; i < _tokens.length; i++) {
+            legacies[_index].tokens.push(_tokens[i]);
         }
     }
 
@@ -110,7 +102,7 @@ contract Legacies is KeeperCompatible {
 
             //Transfer tokens to legatee
             for (uint256 j = 0; j < _legacy.tokens.length; j++) {
-                address _token = tokens[_legacy.tokens[i]];
+  		address _token = _legacy.tokens[j];
                 uint256 _balance = IERC20(_token).balanceOf(_legacy.owner);
                 TransferHelper.safeTransferFrom(
                     _token,
