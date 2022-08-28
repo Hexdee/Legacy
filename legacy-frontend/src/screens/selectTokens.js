@@ -8,6 +8,7 @@ import {ethers} from "ethers";
 const SelectTokens = ({ handdleProceed }) => {
     const tkns = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
     const [tokens, setTokens] = useState([]);
+    const [selectedTokens, setSelectedTokens] = useState();
 
     const getUser = () => {
         return localStorage.getItem('legacy_user');
@@ -19,7 +20,7 @@ const SelectTokens = ({ handdleProceed }) => {
             return;
         }
 
-        const url = new URL(`https://deep-index.moralis.io/api/v2/0xf7617Dd41b95a6B169C28766e2C2Ba4aB75Ba3aD/erc20?chain=mumbai`);
+        const url = new URL(`https://deep-index.moralis.io/api/v2/${user}/erc20?chain=mumbai`);
         fetch(url, {
             method: 'GET',
             headers: {
@@ -41,7 +42,7 @@ const SelectTokens = ({ handdleProceed }) => {
         let tokenAddresses = [];
 
         // User approve contract to have access to their token
-        tokens.map(async(token) => {
+        selectedTokens.map(async(token) => {
             const tokenAddress = token.token_address;
             try {
                 const erc20Abi = ["function approve(address _legatee, uint256 _checkInterval)"];
@@ -62,6 +63,16 @@ const SelectTokens = ({ handdleProceed }) => {
 
         handdleProceed();
     }
+
+    const selectToken = (token) => {
+        setSelectedTokens(...selectedTokens, token);
+    }
+
+    const selectAll = () => {
+        setSelectedTokens(tokens);
+    }
+
+    console.log(tokens);
 
     return (
         <Box padding="30px 80px">
@@ -92,19 +103,21 @@ const SelectTokens = ({ handdleProceed }) => {
                 </Text>
 
                 <Box bg="brand.dark" w="100%" m="40px auto" p="20px" borderRadius="10px">
-                    <CustomButton bg="brand.primary" color="brand.white" mb="30px" hoverColor="brand.yellow">Select All</CustomButton>
+                    <CustomButton bg="brand.primary" color="brand.white" mb="30px" hoverColor="brand.yellow" onClick={selectAll}>Select All</CustomButton>
                     <SimpleGrid columns="4" spacing="10">
-                        {tkns.map((res) => (
+                        {tokens.length ? tokens.map((token) => (
                             <Box w="230px">
                                 <Flex color="brand.dark" bg="brand.white" p="15px" h="95px" borderRadius="10px" alignItems="center" justifyContent="center">
-                                    <Text>{res}</Text>
+                                    <Text>{token.symbol}</Text>
                                 </Flex>
                                 <Flex color="brand.white" alignItems="center" cursor="pointer" _hover={{ color: 'brand.yellow' }} fontSize="14px" justifyContent="space-between" p="10px 20px">
                                     <Box>{transfer}</Box>
-                                    <Text>Select</Text>
+                                    <Text onClick={() => selectToken(token)}>Select</Text>
                                 </Flex>
                             </Box>
-                        ))}
+                        )) :
+                        <Text color="white">You currently do not have any token</Text>
+                        }
                     </SimpleGrid>
                 </Box>
                 <CustomButton onClick={addTokens}>Proceed</CustomButton>

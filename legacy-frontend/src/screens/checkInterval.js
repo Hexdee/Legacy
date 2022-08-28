@@ -8,30 +8,39 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
   const [legatee, setLegatee] = useState();
   const [interval, setInterval] = useState();
   const [lastSeen, setLastSeen] = useState();
+
   useEffect(() => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
-      const legacyAbi = ["function legacies(uint256) view returns (address, address, uint256, uint256, bool)"];
+      const legacyAbi = ["function legacies(uint256) view returns (address, address, uint256, uint256, bool)",
+        "function legacyIndexes(address owner) view returns(uint256)"
+      ];
       const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
       //TODO
       //Display loader
-      legacy.legacies(0).then((res) => {
-        setLegatee(res[1]);
-        //Convert lastSeen to minutes (just for the sake of demo)
-        let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[2])) / 60 );
-        setLastSeen(`${ls} minutes ago`);
-        //Convert checkInterval to seconds (just for the sake of demo)
-        const secs = Number(res[3]);
-        const intervalMins = Math.floor(secs / 60);
-        setInterval(`Every ${intervalMins} minutes`);
+      legacy.legacyIndexes(getUser()).then((index) => {
+        legacy.legacies(Number(index)).then((res) => {
+          setLegatee(res[1]);
+          //Convert lastSeen to minutes (just for the sake of demo)
+          let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[2])) / 60 );
+          setLastSeen(`${ls} minutes ago`);
+          //Convert checkInterval to seconds (just for the sake of demo)
+          const secs = Number(res[3]);
+          const intervalMins = Math.floor(secs / 60);
+          setInterval(`Every ${intervalMins} minutes`);
+        })
       })
     } catch (error) {
       alert("An error occured!");
       return;
     }
   }, [])
+
+  const getUser = () => {
+    return localStorage.getItem('legacy_user');
+  }
 
   const checkIn = async (e) => {
     e.preventDefault();
