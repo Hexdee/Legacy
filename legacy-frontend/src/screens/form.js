@@ -9,9 +9,11 @@ import { toaster } from "evergreen-ui";
 const Form = ({ handleSecureNow }) => {
   const [legatee, setLagatee] = useState("");
   const [checkInterval, setCheckInterval] = useState();
+  const [createLoading, setCreateLoading] = useState(false);
 
   const create = async(e) => {
     e.preventDefault();
+    setCreateLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -23,8 +25,10 @@ const Form = ({ handleSecureNow }) => {
       const tx = await legacy.create(legatee, checkInterval);
       await tx.wait;
       localStorage.setItem('has_legacy', 'true');
+      setCreateLoading(false);
     } catch (error) {
       toaster.danger("An error occured!");
+      setCreateLoading(false);
       return;
     }
     handleSecureNow();
@@ -98,12 +102,12 @@ const Form = ({ handleSecureNow }) => {
                     onChange={handleLegateeChange}
                 />
                 <TextInput
-                    label="CheckInterval"
+                    label="Check Interval (input number of days)"
                     placeholder="Enter how frequently you want to check in"
                     type="number"
                     onChange={handleCheckIntervalChange}
                 />
-                <CustomButton mt="20px" w="100%" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={create}>Secure Now</CustomButton>
+                <CustomButton mt="20px" w="100%" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={createLoading} onClick={create}>Secure Now</CustomButton>
             </form>
         </Box>
       </Box>

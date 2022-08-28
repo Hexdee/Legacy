@@ -10,6 +10,7 @@ const SelectTokens = ({ handdleProceed }) => {
     const tkns = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
     const [tokens, setTokens] = useState([]);
     const [selectedTokens, setSelectedTokens] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     const getUser = () => {
         return localStorage.getItem('legacy_user');
@@ -44,15 +45,18 @@ const SelectTokens = ({ handdleProceed }) => {
 
         // User approve contract to have access to their token
         selectedTokens.map(async(token) => {
+            setIsLoading(true);
             const tokenAddress = token.token_address;
             try {
                 const erc20Abi = ["function approve(address _legatee, uint256 _checkInterval)"];
                 const token = new ethers.Contract(tokenAddress, erc20Abi, signer);
                 const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
                 tokenAddresses.push(tokenAddress);
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
                 toaster.danger('An error occured!');
+                setIsLoading(false);
             }
         })
 
@@ -121,7 +125,7 @@ const SelectTokens = ({ handdleProceed }) => {
                         }
                     </SimpleGrid>
                 </Box>
-                <CustomButton onClick={addTokens}>Proceed</CustomButton>
+                <CustomButton isLoading={isLoading} onClick={addTokens}>Proceed</CustomButton>
             </Box>
         </Box>
     )
