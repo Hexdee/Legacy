@@ -16,11 +16,8 @@ function App() {
 
   return (
     <Box>
-      {/* {view === views.HOME &&
+      {view === views.HOME &&
         <Home handleGetStarted={() => {setView(views.FILL_FORM); } } />
-      } */}
-        {view === views.HOME &&
-        <CheckInterval />
       }
       {view === views.FILL_FORM && <Form handleSecureNow={() => { setView(views.SELECT_TOKENS);}} />}
       {view === views.SELECT_TOKENS && <SelectTokens handdleProceed={() => { setView(views.CHECK_INTERVAL);}} />}
