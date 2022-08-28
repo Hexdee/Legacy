@@ -72,11 +72,11 @@ const Form = ({ handleSecureNow }) => {
         </Text>
         <Box m="40px auto" w="80%" fontSize="14px">
             <form>
-                {/* <TextInput
-                    label="Full name"
-                    placeholder="Enter your full name"
+                <TextInput
+                    label="Name"
+                    placeholder="Enter your name"
                     type="text"
-                /> */}
+                />
 
                 {/* <TextInput
                     label="Wallet Address"
@@ -87,13 +87,13 @@ const Form = ({ handleSecureNow }) => {
                     label="Email"
                     placeholder="Enter your email"
                     type="email"
-                />
+                />*/}
 
                 <TextInput
                     label="Name of your next of kin"
-                    placeholder="Enter your next of kin"
+                    placeholder="Enter your next of kin name"
                     type="text"
-                /> */}
+                />
 
                 <TextInput
                     label="Next of kin wallet address"
