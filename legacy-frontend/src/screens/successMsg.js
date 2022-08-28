@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import logo from "../../src/icons/logo.svg";
 
-const SuccessMessage = ({ handleGoHome }) => {
+const SuccessMessage = ({ handleProceed }) => {
   const imgLink = "https://pngimg.com/uploads/confetti/confetti_PNG86957.png";
   return (
     <Box padding="30px 80px">
@@ -33,7 +33,7 @@ const SuccessMessage = ({ handleGoHome }) => {
         </Text>
       </Box>
 
-      <CustomButton m="-20px auto" d="flex" onClick={handleGoHome}>Go Home</CustomButton>
+      <CustomButton m="-20px auto" d="flex" onClick={handleProceed}>Go Home</CustomButton>
     </Box>
   );
 };

@@ -7,7 +7,6 @@ import {ethers} from "ethers";
 import { toaster } from "evergreen-ui";
 
 const SelectTokens = ({ handdleProceed }) => {
-    const tkns = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
     const [tokens, setTokens] = useState([]);
     const [selectedTokens, setSelectedTokens] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -62,11 +61,13 @@ const SelectTokens = ({ handdleProceed }) => {
             }
         })
 
-        // Add tokens to Legacy
-        const legacyAbi = ["function addTokens(address[] memory _tokens)"];
-        const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
-        const tx = await legacy.addTokens(tokenAddresses);
-        await tx.wait();
+        if (selectedTokens.length > 0) {
+            // Add tokens to Legacy
+            const legacyAbi = ["function addTokens(address[] memory _tokens)"];
+            const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+            const tx = await legacy.addTokens(tokenAddresses);
+            await tx.wait();
+        }
 
         handdleProceed();
     }
@@ -78,8 +79,6 @@ const SelectTokens = ({ handdleProceed }) => {
     const selectAll = () => {
         setSelectedTokens(tokens);
     }
-
-    console.log(tokens);
 
     return (
         <Box padding="30px 80px">
