@@ -3,7 +3,7 @@ import CustomButton from "../common/CustomButton";
 import logo from '../../src/icons/logo.svg';
 import { transfer } from "../utils/svg";
 
-const SelectTokens = () => {
+const SelectTokens = ({ handdleProceed }) => {
     const tokens = ['My Algo Token', 'New Kinetics', 'Jiggy', 'Killatunez' ]
     return (
         <Box padding="30px 80px">
@@ -49,7 +49,7 @@ const SelectTokens = () => {
                         ))}
                     </SimpleGrid>
                 </Box>
-                <CustomButton>Proceed</CustomButton>
+                <CustomButton onClick={handdleProceed}>Proceed</CustomButton>
             </Box>
         </Box>
     )
