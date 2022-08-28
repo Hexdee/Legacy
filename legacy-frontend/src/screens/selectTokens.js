@@ -1,7 +1,7 @@
 import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import logo from '../../src/icons/logo.svg';
-import { loading, transfer } from "../utils/svg";
+import { loading } from "../utils/svg";
 import { useEffect, useState } from "react";
 import {ethers} from "ethers";
 import { toaster } from "evergreen-ui";
@@ -10,7 +10,6 @@ const SelectTokens = ({ handdleProceed }) => {
     const [tokens, setTokens] = useState([]);
     const [selectedTokens, setSelectedTokens] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [selectItem, setSelectItem] = useState(false);
     const [getTokensLoading, setGetTokensLoading] = useState(false);
 
     const getUser = () => {
@@ -76,11 +75,12 @@ const SelectTokens = ({ handdleProceed }) => {
 
     const selectToken = (token) => {
         setSelectedTokens(...selectedTokens, token);
-        setSelectItem(true, token);
+        toaster.success(`${token.symbol} successfully selected`);
     }
 
     const selectAll = () => {
         setSelectedTokens(tokens);
+        toaster.success(`All tokens successfully selected`);
     }
 
     return (
