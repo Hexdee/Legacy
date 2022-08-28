@@ -10,6 +10,7 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
   const [legatee, setLegatee] = useState();
   const [interval, setInterval] = useState();
   const [lastSeen, setLastSeen] = useState();
+  const [checkInLoading, setCheckInLoading] = useState(false);
 
   useEffect(() => {
     try {
@@ -46,6 +47,7 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
 
   const checkIn = async (e) => {
     e.preventDefault();
+    setCheckInLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -56,8 +58,10 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
       //Display loader
       const tx = await legacy.checkIn();
       await tx.wait;
+      setCheckInLoading(false);
     } catch (error) {
       toaster.danger("An error occured!");
+      setCheckInLoading(false);
       return;
     }
     handleProceedToSuccess();
@@ -100,7 +104,7 @@ const CheckInterval = ({ getInterval, handleProceedToSuccess }) => {
             value={lastSeen}
           />
         </Box>
-        <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Check In</CustomButton>
+        <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Check In</CustomButton>
         <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={checkIn}>Edit my Legacy</CustomButton>
         {/* <Text fontSize="40px" textAlign="center">Select Check in Interval</Text>
         <Box fontSize="14px" m="0 auto">

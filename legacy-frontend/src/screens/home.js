@@ -9,6 +9,8 @@ import { toaster } from 'evergreen-ui';
 
 const Home = ({ handleGetStarted }) => {
     const [user, setUser] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [getStartedLoading, setGetStartedLoading] = useState(false);
     useEffect(() => {
         setUser(getUser);
     }, [user]);
@@ -18,6 +20,7 @@ const Home = ({ handleGetStarted }) => {
     }
 
     const connect = async () => {
+        setIsLoading(true);
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             await provider.send("eth_requestAccounts", []);
@@ -25,20 +28,25 @@ const Home = ({ handleGetStarted }) => {
             const address = await signer.getAddress();
             localStorage.setItem('legacy_user', address);
             setUser(address);
+            setIsLoading(false);
         } catch(error) {
             console.log(error);
             toaster.danger("An error occured!");
+            setIsLoading(false);
         }
     }
     
     const handlegetstarted = () => {
+        setGetStartedLoading(true);
         if (getUser()) {
             handleGetStarted();
+            setGetStartedLoading(false);
         }
         else {
             toaster.danger('Please connect wallet first!', {
                 duration: 10
             });
+            setGetStartedLoading(false);
         }
     }
     return (
@@ -51,8 +59,8 @@ const Home = ({ handleGetStarted }) => {
                 </Flex>
                 {
                     getUser() ? 
-                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={connect}>Connected</CustomButton> :
-                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={connect}>Authenticate</CustomButton>
+                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={isLoading} onClick={connect}>Connected</CustomButton> :
+                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={isLoading} onClick={connect}>Authenticate</CustomButton>
                 }
             </Flex>
 
@@ -72,7 +80,7 @@ const Home = ({ handleGetStarted }) => {
                         family (automatically your next kin)
                     </Text>
 
-                    <CustomButton mt="30px" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" onClick={handlegetstarted}>Get Started</CustomButton>
+                    <CustomButton mt="30px" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={getStartedLoading} onClick={handlegetstarted}>Get Started</CustomButton>
                 </Box>
                 
                 <Box width="50%" borderRadius="10px">
