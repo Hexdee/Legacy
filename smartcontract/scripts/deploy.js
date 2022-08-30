@@ -12,11 +12,11 @@ async function main() {
 
   await legacies.deployed();
 
+  
   console.log(
     `Legacy contract deployed to ${legacies.address}`
-  );
+    );
 }
-
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {

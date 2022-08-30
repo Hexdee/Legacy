@@ -6,6 +6,7 @@ import "./TransferHelper.sol";
 
 interface IERC20 {
     function balanceOf(address owner) external returns(uint256 balance);
+    function allowance(address owner, address spender) external returns(uint256 remaining);
 }
 
 contract Legacies is KeeperCompatible {
@@ -22,11 +23,14 @@ contract Legacies is KeeperCompatible {
     }
 
     constructor() {
-
+        //Create dummy legacy to occupy index 0
+        create(address(0), 0);
     }
 
     function create(address _legatee, uint256 _checkInterval) public {
         uint256 _index = legacies.length;
+        // Revert if msg.sender already has an active legacy!
+        require(legacyIndexes[msg.sender] == 0, "Legacy exist!");
         legacies.push(Legacy(msg.sender, _legatee, new address[](0), block.timestamp, _checkInterval, false));
         legacyIndexes[msg.sender] = _index;
     }
@@ -35,6 +39,7 @@ contract Legacies is KeeperCompatible {
         uint256 _index = legacyIndexes[msg.sender];
         require(legacies[_index].owner == msg.sender, "not owner!");
         delete legacies[_index];
+        legacyIndexes[msg.sender] = 0;
     }
 
     function updateCheckInterval(uint256 _checkInterval) public {
@@ -62,55 +67,51 @@ contract Legacies is KeeperCompatible {
     function addTokens(address[] memory _tokens) public {
 	uint256 _index = legacyIndexes[msg.sender];
         for (uint256 i = 0; i < _tokens.length; i++) {
+            IERC20 _token = IERC20(_tokens[i]);
+            //Confirm token approval
+            require(_token.allowance(msg.sender, address(this)) == type(uint256).max, "not approved!");
             legacies[_index].tokens.push(_tokens[i]);
         }
     }
 
     function checkUpkeep(bytes calldata /* checkData */) external view override returns (bool upkeepNeeded, bytes memory performData ) {
-        uint256[] memory due = new uint256[](10);
-        uint256 count = 0;
+        upkeepNeeded = false;
         //Get 10 legacies due for fulfillment
         for (uint256 i = 0; i < legacies.length; i++) {
             Legacy memory _legacy = legacies[i];
             if (!_legacy.fulfilled && block.timestamp - _legacy.lastSeen > _legacy.checkInterval) {
-                due[count] = i;
-                count++;
+                upkeepNeeded = true;
+                performData = abi.encode(i);
+                break;
             }
         }
 
-        //Encode performData
-        if (count > 0) {
-            upkeepNeeded = true;
-            performData = abi.encode(due);
-        }
-        else {
-            upkeepNeeded = false;
-        }
     }
 
     function performUpkeep(bytes calldata performData ) external override {
         //Decode perfromData
-        uint256[] memory due = new uint256[](10);
-        due = abi.decode(performData, (uint256[]));
+        uint256 index = abi.decode(performData, (uint256));
 
-        for (uint256 i = 0; i < 10; i++) {
-            Legacy memory _legacy = legacies[i];
-            
-            //Confirm performData
-            require(block.timestamp - _legacy.lastSeen < _legacy.checkInterval, "not due!" );
-            _legacy.fulfilled = true;
+        Legacy memory _legacy = legacies[index];    
+        //Confirm performData
+        require(block.timestamp - _legacy.lastSeen > _legacy.checkInterval, "not due!" );
+        legacies[index].fulfilled = true;
 
-            //Transfer tokens to legatee
-            for (uint256 j = 0; j < _legacy.tokens.length; j++) {
-  		address _token = _legacy.tokens[j];
-                uint256 _balance = IERC20(_token).balanceOf(_legacy.owner);
-                TransferHelper.safeTransferFrom(
-                    _token,
-                    _legacy.owner,
-                    _legacy.legatee,
-                    _balance
-                );
+        //Transfer tokens to legatee
+        for (uint256 i = 0; i < _legacy.tokens.length; i++) {
+  		    address _token = _legacy.tokens[i];
+            uint256 _allowed = IERC20(_token).allowance(_legacy.owner, address(this));
+            uint256 _balance = IERC20(_token).balanceOf(_legacy.owner);
+            // Skip tokens not approved
+            if (_allowed < _balance) {
+                continue;
             }
+            TransferHelper.safeTransferFrom(
+                _token,
+                _legacy.owner,
+                _legacy.legatee,
+                _balance
+            );
         }
     }
 }
