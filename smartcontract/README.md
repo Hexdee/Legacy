@@ -14,7 +14,7 @@ npx hardhat compile
 npx hardhat run script/deploy.js --network hardhat
 ```
 
-### Deploy to hardhat network
+### Deploy to Mumbai testnet
 ```bash
 npx hardhat run script/deploy.js
 ```
