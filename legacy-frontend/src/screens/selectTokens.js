@@ -8,7 +8,7 @@ import { toaster } from "evergreen-ui";
 
 const SelectTokens = ({ handdleProceed }) => {
     const [tokens, setTokens] = useState([]);
-    const [selectedTokens, setSelectedTokens] = useState();
+    const [selectedTokens, setSelectedTokens] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [getTokensLoading, setGetTokensLoading] = useState(false);
 
@@ -41,34 +41,36 @@ const SelectTokens = ({ handdleProceed }) => {
 
     const addTokens = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
+        const legacyAddress = "0xA75ef045964896E28574A2ffB13bC58c63950bCC";
         const signer = provider.getSigner();
-        let tokenAddresses = [];
+        let tokenAddresses = selectedTokens.map((tkn) => tkn.token_address);
 
         // User approve contract to have access to their token
-        selectedTokens.map(async(token) => {
-            setIsLoading(true);
-            const tokenAddress = token.token_address;
-            try {
+        try {
+            selectedTokens.map(async(tkn) => {
+                setIsLoading(true);
+                const tokenAddress = tkn.token_address;
+                console.log(tokenAddress);
                 const erc20Abi = ["function approve(address _legatee, uint256 _checkInterval)"];
                 const token = new ethers.Contract(tokenAddress, erc20Abi, signer);
-                const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
                 tokenAddresses.push(tokenAddress);
+                const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
                 setIsLoading(false);
-            } catch (error) {
-                console.log(error);
-                toaster.danger('An error occured!');
-                setIsLoading(false);
-            }
-        })
-
-        if (selectedTokens.length > 0) {
+            })
+            console.log(tokenAddresses);
             // Add tokens to Legacy
             const legacyAbi = ["function addTokens(address[] memory _tokens)"];
             const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+            // console.log(tokenAddresses)
             const tx = await legacy.addTokens(tokenAddresses);
             await tx.wait();
+        } catch (error) {
+            console.log(error);
+            toaster.danger('An error occured!');
+            setIsLoading(false);
+            return;
         }
+
 
         handdleProceed();
     }

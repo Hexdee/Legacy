@@ -51,7 +51,7 @@ const CheckInterval = ({ handleSecureNow, handleProceedToSuccess }) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const legacyAddress = "0x0a659fd95fD2d7677Ab22aEEA6B16893b4A75005";
+      const legacyAddress = "0xA75ef045964896E28574A2ffB13bC58c63950bCC";
       const legacyAbi = ["function checkIn()"];
       const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
       //TODO
