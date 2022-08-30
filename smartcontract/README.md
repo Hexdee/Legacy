@@ -1,13 +1,17 @@
-# Sample Hardhat Project
+# Legacy smart contract
+To build locally
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+### Compile
+```bash
+npx hardhat compile
+```
 
-Try running some of the following tasks:
+### Deploy to hardhat network
+```bash
+npx hardhat run script/deploy.js --network hardhat
+```
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
+### Deploy to hardhat network
+```bash
+npx hardhat run script/deploy.js
 ```
