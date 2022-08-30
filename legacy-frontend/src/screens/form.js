@@ -17,7 +17,7 @@ const Form = ({ handleSecureNow }) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const legacyAddress = "0xA75ef045964896E28574A2ffB13bC58c63950bCC";
+      const legacyAddress = "0x3113ee4eD0637F2f0EE49Eeb0cFF8D7cAf2D79A8";
       const legacyAbi = ["function create(address _legatee, uint256 _checkInterval)"]
       const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
       //TODO

@@ -22,41 +22,47 @@ const SelectTokens = ({ handdleProceed }) => {
         if(!user) {
             return;
         }
-
-        const url = new URL(`https://deep-index.moralis.io/api/v2/${user}/erc20?chain=mumbai`);
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-Key': '4QdwNluHelpTw9qmoAXTsaodpYXP1E1cpdrRmqbTGf9sPhO9hBFPrRydJxkl5TPP'
-            }
-        }).then(async(res) => {
-            const res_json = await res.json();
-            // console.log(res_json);
-            setTokens(res_json);
+        try {
+            const url = new URL(`https://deep-index.moralis.io/api/v2/${user}/erc20?chain=mumbai`);
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': '4QdwNluHelpTw9qmoAXTsaodpYXP1E1cpdrRmqbTGf9sPhO9hBFPrRydJxkl5TPP'
+                }
+            }).then(async(res) => {
+                const res_json = await res.json();
+                // console.log(res_json);
+                setTokens(res_json);
+                setGetTokensLoading(false);
+                // console.log(tokens);
+            })
+        } catch (error) {
+            console.log(error);
             setGetTokensLoading(false);
-            // console.log(tokens);
-        })
+        }
     }, []);
+
+    const approve = async (tokenAddress) => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const legacyAddress = "0x3113ee4eD0637F2f0EE49Eeb0cFF8D7cAf2D79A8";
+        const signer = provider.getSigner();
+
+        setIsLoading(true);
+        const erc20Abi = ["function approve(address _legatee, uint256 _checkInterval)"];
+        const token = new ethers.Contract(tokenAddress, erc20Abi, signer);
+        const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
+        setIsLoading(false);
+    }
 
     const addTokens = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const legacyAddress = "0xA75ef045964896E28574A2ffB13bC58c63950bCC";
+        const legacyAddress = "0x3113ee4eD0637F2f0EE49Eeb0cFF8D7cAf2D79A8";
         const signer = provider.getSigner();
         let tokenAddresses = selectedTokens.map((tkn) => tkn.token_address);
 
         // User approve contract to have access to their token
         try {
-            selectedTokens.map(async(tkn) => {
-                setIsLoading(true);
-                const tokenAddress = tkn.token_address;
-                console.log(tokenAddress);
-                const erc20Abi = ["function approve(address _legatee, uint256 _checkInterval)"];
-                const token = new ethers.Contract(tokenAddress, erc20Abi, signer);
-                tokenAddresses.push(tokenAddress);
-                const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
-                setIsLoading(false);
-            })
             console.log(tokenAddresses);
             // Add tokens to Legacy
             const legacyAbi = ["function addTokens(address[] memory _tokens)"];
@@ -76,12 +82,18 @@ const SelectTokens = ({ handdleProceed }) => {
     }
 
     const selectToken = (token) => {
+        try {
+            approve(token.token_address)
+        } catch (error) {
+            console.log(error);
+        }
         setSelectedTokens(...selectedTokens, token);
         toaster.success(`${token.symbol} successfully selected`);
     }
 
     const selectAll = () => {
         setSelectedTokens(tokens);
+        tokens.map((token) => approve(token.token_address));
         toaster.success(`All tokens successfully selected`);
     }
 
