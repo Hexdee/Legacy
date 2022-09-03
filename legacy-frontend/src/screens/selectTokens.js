@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import {ethers} from "ethers";
 import { toaster } from "evergreen-ui";
 
-const SelectTokens = ({ handdleProceed }) => {
+const SelectTokens = ({ handleProceed }) => {
     const [tokens, setTokens] = useState([]);
     const [selectedTokens, setSelectedTokens] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +78,7 @@ const SelectTokens = ({ handdleProceed }) => {
         }
 
 
-        handdleProceed();
+        handleProceed();
     }
 
     const selectToken = (token) => {
@@ -146,6 +146,7 @@ const SelectTokens = ({ handdleProceed }) => {
                     }
                 </Box>
                 <CustomButton isLoading={isLoading} onClick={addTokens} ml="20px">Proceed</CustomButton>
+	    	<CustomButton onClick={handleProceed} ml="20px">Later</CustomButton>
             </Box>
         </Box>
     )
