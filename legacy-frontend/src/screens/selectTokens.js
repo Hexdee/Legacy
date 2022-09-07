@@ -139,14 +139,14 @@ const SelectTokens = ({ handleProceed }) => {
                                         </Flex>
                                     </Box>
                                 )) :
-                                <Text color="white">You currently do not have any token</Text>
+                                <Text color="brand.primary">You currently do not have any token</Text>
                                 }
                             </SimpleGrid>
                         </>
                     }
                 </Box>
+	    	    <CustomButton onClick={handleProceed} ml="20px">Later</CustomButton>
                 <CustomButton isLoading={isLoading} onClick={addTokens} ml="20px">Proceed</CustomButton>
-	    	<CustomButton onClick={handleProceed} ml="20px">Later</CustomButton>
             </Box>
         </Box>
     )

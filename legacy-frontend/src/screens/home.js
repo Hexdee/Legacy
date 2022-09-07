@@ -59,7 +59,7 @@ const Home = ({ handleGetStarted }) => {
                 </Flex>
                 {
                     getUser() ? 
-                    <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={isLoading} onClick={connect}>Connected</CustomButton> :
+                    <CustomButton bg="brand.yellow" color="brand.white" hoverColor="brand.primary" isLoading={isLoading} onClick={connect}>Connected</CustomButton> :
                     <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={isLoading} onClick={connect}>Authenticate</CustomButton>
                 }
             </Flex>
