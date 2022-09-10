@@ -200,7 +200,7 @@ const SelectTokens = () => {
             </>
           )}
         </Box>
-        <CustomButton onClick={() => navigate("/check-interval")} ml="20px">
+        <CustomButton onClick={() => navigate("/profile")} ml="20px">
           Later
         </CustomButton>
         <CustomButton isLoading={isLoading} onClick={addTokens} ml="20px">

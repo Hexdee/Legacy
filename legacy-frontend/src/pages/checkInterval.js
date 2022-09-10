@@ -51,7 +51,7 @@ const CheckInterval = () => {
     <Box padding="30px 80px">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex alignItems="center" justifyContent="space-around">
-          <Link to={legacy ? "/check-interval" : "/"}>
+          <Link to={legacy ? "/profile" : "/"}>
             <Image w="60px" src={logo} alt="logo" />
           </Link>
           <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>

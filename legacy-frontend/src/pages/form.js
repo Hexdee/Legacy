@@ -3,7 +3,7 @@ import logo from '../../src/icons/logo.svg';
 import CustomButton from "../common/CustomButton";
 import TextInput from "../common/TextInput";
 import {ethers} from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toaster } from "evergreen-ui";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,10 +12,16 @@ const Form = () => {
   const [legatee, setLagatee] = useState("");
   const [checkInterval, setCheckInterval] = useState();
   const [createLoading, setCreateLoading] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userNextOfKin, setUserNextOfKin] = useState('');
+
+  const getUserDetails = localStorage.getItem('userDetails');
 
   const create = async(e) => {
     e.preventDefault();
     setCreateLoading(true);
+    const userDetails = { userName, userNextOfKin, checkInterval, legatee };
+    localStorage.setItem('userDetails', userDetails);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -80,12 +86,15 @@ const Form = () => {
                     label="Name"
                     placeholder="Enter your name"
                     type="text"
+                    onChange={(e) => setUserName(e.target.value)}
+                    defaultValue={getUserDetails && getUserDetails.userName}
                 />
-
                 <TextInput
                     label="Name of your next of kin"
                     placeholder="Enter your next of kin name"
                     type="text"
+                    onChange={(e) => setUserNextOfKin(e.target.value)}
+                    defaultValue={getUserDetails && getUserDetails.userNextOfKin}
                 />
 
                 <TextInput
@@ -93,12 +102,14 @@ const Form = () => {
                     placeholder="Enter your next of kin wallet address"
                     type="text"
                     onChange={handleLegateeChange}
+                    defaultValue={getUserDetails && getUserDetails.legatee}
                 />
                 <TextInput
-                    label="CheckInterval(In Days)"
+                    label="CheckInterval (In Days)"
                     placeholder="Enter how frequently you want to check in"
                     type="number"
                     onChange={handleCheckIntervalChange}
+                    defaultValue={getUserDetails && getUserDetails.checkInterval}
                 />
                 <CustomButton mt="20px" w="100%" bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={createLoading} onClick={create}>Secure Now</CustomButton>
             </form>

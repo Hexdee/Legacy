@@ -12,6 +12,7 @@ const getUserInterval = (getUser, setLegatee, setLastSeen, setInterval) => {
             "function legacyIndexes(address owner) view returns(uint256)"
           ];
           const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+          console.log(legacy);
           //TODO
           //Display loader
           legacy.legacyIndexes(getUser()).then((index) => {
