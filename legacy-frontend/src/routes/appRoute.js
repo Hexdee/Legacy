@@ -20,7 +20,7 @@ const AppRoute = () => {
         <Route index path="/" element={legacy ? <CheckInterval /> : <Home />} />
         <Route path="/get-started" element={<Form />} />
         <Route path="/select-token" element={<SelectTokens />} />
-        <Route path="/check-interval" element={<CheckInterval />} />
+        <Route path="/profile" element={<CheckInterval />} />
         <Route path="/success" element={<SuccessMessage />} />
       </Routes>
      </ChakraProvider>
