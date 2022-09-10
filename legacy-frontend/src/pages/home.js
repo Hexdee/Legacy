@@ -5,9 +5,11 @@ import { ethers } from "ethers";
 import { useEffect, useState } from 'react';
 import img from '../images/bg.jpeg';
 import { toaster } from 'evergreen-ui';
+import { Link, useNavigate } from "react-router-dom";
 
 
-const Home = ({ handleGetStarted }) => {
+const Home = () => {
+    let navigate = useNavigate();
     const [user, setUser] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [getStartedLoading, setGetStartedLoading] = useState(false);
@@ -39,7 +41,7 @@ const Home = ({ handleGetStarted }) => {
     const handlegetstarted = () => {
         setGetStartedLoading(true);
         if (getUser()) {
-            handleGetStarted();
+            navigate('/get-started')
             setGetStartedLoading(false);
         }
         else {
@@ -53,7 +55,9 @@ const Home = ({ handleGetStarted }) => {
         <Box padding="30px 80px">
             <Flex justifyContent="space-between" alignItems="center">
                 <Flex alignItems="center" justifyContent="space-around">
-                    <Image w="60px" src={logo} alt="logo" />
+                    <Link to="/">
+                        <Image w="60px" src={logo} alt="logo" />
+                    </Link>
                     <Text cursor="pointer" ml="100px" _hover={{ color: 'brand.primary' }}>About us</Text>
                     <Text cursor="pointer" ml="100px" _hover={{ color: 'brand.primary' }}>How it works</Text>
                 </Flex>

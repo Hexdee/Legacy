@@ -1,14 +1,17 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import logo from "../../src/icons/logo.svg";
+import { Link } from "react-router-dom";
 
-const SuccessMessage = ({ handleProceed }) => {
+const SuccessMessage = () => {
   const imgLink = "https://pngimg.com/uploads/confetti/confetti_PNG86957.png";
   return (
     <Box padding="30px 80px">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex alignItems="center" justifyContent="space-around">
-          <Image w="60px" src={logo} alt="logo" />
+          <Link to="/">
+            <Image w="60px" src={logo} alt="logo" />
+          </Link>
           <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
             About us
           </Text>
@@ -33,7 +36,9 @@ const SuccessMessage = ({ handleProceed }) => {
         </Text>
       </Box>
 
-      <CustomButton m="-20px auto" d="flex" onClick={handleProceed}>Go Home</CustomButton>
+      <Link to="/">
+        <CustomButton m="-20px auto" d="flex">Go Home</CustomButton>
+      </Link>
     </Box>
   );
 };

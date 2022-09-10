@@ -5,8 +5,10 @@ import TextInput from "../common/TextInput";
 import {ethers} from "ethers";
 import { useState } from "react";
 import { toaster } from "evergreen-ui";
+import { Link, useNavigate } from "react-router-dom";
 
-const Form = ({ handleSecureNow }) => {
+const Form = () => {
+  let navigate = useNavigate();
   const [legatee, setLagatee] = useState("");
   const [checkInterval, setCheckInterval] = useState();
   const [createLoading, setCreateLoading] = useState(false);
@@ -27,11 +29,11 @@ const Form = ({ handleSecureNow }) => {
       localStorage.setItem('has_legacy', 'true');
       setCreateLoading(false);
     } catch (error) {
-      toaster.danger("An error occured!");
+      toaster.danger("Error occured! Legacy already exist");
       setCreateLoading(false);
       return;
     }
-    handleSecureNow();
+    navigate('select-token');
   }
 
   const handleLegateeChange = (event) => {
@@ -47,7 +49,9 @@ const Form = ({ handleSecureNow }) => {
     <Box padding="30px 80px">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex alignItems="center" justifyContent="space-around">
-          <Image w="60px" src={logo} alt="logo" />
+          <Link to="/">
+            <Image w="60px" src={logo} alt="logo" />
+          </Link>
           <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
             About us
           </Text>
@@ -77,17 +81,6 @@ const Form = ({ handleSecureNow }) => {
                     placeholder="Enter your name"
                     type="text"
                 />
-
-                {/* <TextInput
-                    label="Wallet Address"
-                    placeholder="Enter your wallet address"
-                    type="text"
-                />
-                   <TextInput
-                    label="Email"
-                    placeholder="Enter your email"
-                    type="email"
-                />*/}
 
                 <TextInput
                     label="Name of your next of kin"

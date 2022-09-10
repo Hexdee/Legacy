@@ -21,6 +21,7 @@ const CustomButton = ({ children, bg, color, onClick, border, mr, hover, w, mt, 
     display={d}
     m={m}
     ml={ml}
+    cursor="pointer"
   >
     {children}
   </Button>
