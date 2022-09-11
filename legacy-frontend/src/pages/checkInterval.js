@@ -1,13 +1,13 @@
 /* eslint-disable no-implied-eval */
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
-import logo from "../../src/icons/logo.svg";
 import {ethers} from "ethers";
 import { useEffect, useState } from "react";
 import { toaster } from "evergreen-ui";
 import TextInput from "../common/TextInput";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import getUserInterval from "../utils/helpers";
+import Navbar from "../navbar/navbar";
 
 const CheckInterval = () => {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ const CheckInterval = () => {
   const [interval, setInterval] = useState();
   const [lastSeen, setLastSeen] = useState();
   const [checkInLoading, setCheckInLoading] = useState(false);
-  const legacy = localStorage.getItem('has_legacy');
 
   useEffect(() => {
     getUserInterval(getUser, setLegatee, setLastSeen, setInterval);
@@ -48,31 +47,12 @@ const CheckInterval = () => {
   }
 
   return (
-    <Box padding="30px 80px">
-      <Flex justifyContent="space-between" alignItems="center">
-        <Flex alignItems="center" justifyContent="space-around">
-          <Link to={legacy ? "/profile" : "/"}>
-            <Image w="60px" src={logo} alt="logo" />
-          </Link>
-          <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
-            About us
-          </Text>
-          <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
-            How it works
-          </Text>
-        </Flex>
-        <CustomButton
-          bg="brand.primary"
-          color="brand.white"
-          hoverColor="brand.yellow"
-        >
-          Connected
-        </CustomButton>
-      </Flex>
+    <Box padding={{ base: '10px 40px', lg: "30px 80px"}}>
+      <Navbar />
 
-      <Box m="40px auto" w="60%">
-        <Text fontSize="40px" textAlign="center">Your Profile Page</Text>
-        <Box w="60%" m="40px auto">
+      <Box m="40px auto" w={{ base: '100%', lg: "60%"}}>
+        <Text fontSize={{ base: '25px', lg: "40px"}} textAlign="center">Your Profile Page</Text>
+        <Box w={{ base: '90%', lg: "60%"}} m="40px auto">
          <TextInput
             label="Next of kin"
             value={legatee}
@@ -86,9 +66,9 @@ const CheckInterval = () => {
             value={lastSeen}
           />
         </Box>
-        <CustomButton w="60%" d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Check In</CustomButton>
-        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => navigate('/get-started')}>Edit my Legacy</CustomButton>
-        <CustomButton w="60%" d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => navigate('/select-token')}>Add Token</CustomButton>
+        <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Check In</CustomButton>
+        <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => navigate('/get-started')}>Edit my Legacy</CustomButton>
+        <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => navigate('/select-token')}>Add Token</CustomButton>
       </Box>
     </Box> 
   );

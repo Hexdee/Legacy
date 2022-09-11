@@ -1,11 +1,11 @@
-import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
-import logo from "../../src/icons/logo.svg";
 import { loading } from "../utils/svg";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { toaster } from "evergreen-ui";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../navbar/navbar";
 
 const SelectTokens = () => {
   const navigate = useNavigate();
@@ -100,56 +100,30 @@ const SelectTokens = () => {
   };
 
   return (
-    <Box padding="30px 80px">
-      <Flex justifyContent="space-between" alignItems="center">
-        <Flex alignItems="center" justifyContent="space-around">
-          <Link to="/">
-            <Image w="60px" src={logo} alt="logo" />
-          </Link>
-          <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
-            About us
-          </Text>
-          <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
-            How it works
-          </Text>
-        </Flex>
-        <CustomButton
-          bg="brand.primary"
-          color="brand.white"
-          hoverColor="brand.yellow"
-        >
-          Connected
-        </CustomButton>
-      </Flex>
+    <Box padding={{ base: '10px 40px', lg: "30px 80px"}}>
+      <Navbar />
       <Box m="40px auto">
-        <Text fontSize="65px" fontWeight="600" color="brand.dark">
+        <Text fontSize={{ base: '30px', lg: "65px"}} fontWeight="600" color="brand.dark">
           SELECT TOKENS
         </Text>
-        <Text color="brand.primary">
+        <Text color="brand.primary" fontSize={{ base: '12px', lg: "16px"}}>
           Kindly select all of your tokens you would like to transfer it's asset
-          to <br />
-          your next of kin.
+          to your next of kin.
         </Text>
         <Box
           bg="#F9F9F9"
           w="100%"
           m="40px auto"
-          p="40px 30px"
+          p="20px 30px"
           borderRadius="10px"
         >
           {getTokensLoading ? (
             loading
           ) : (
             <>
-              <CustomButton
-                bg="brand.primary"
-                color="brand.white"
-                mb="30px"
-                hoverColor="brand.yellow"
-                onClick={selectAll}
-              >
+                <Text mt="-10px" mb="20px" cursor="pointer" _hover={{ color: 'brand.primary' }} onClick={selectAll}>
                 Select All
-              </CustomButton>
+                </Text>
               <SimpleGrid columns="4" spacing="10">
                 {tokens.length ? (
                   tokens.map((token) => (
@@ -200,11 +174,11 @@ const SelectTokens = () => {
             </>
           )}
         </Box>
-        <CustomButton onClick={() => navigate("/profile")} ml="20px">
-          Later
-        </CustomButton>
-        <CustomButton isLoading={isLoading} onClick={addTokens} ml="20px">
+        <CustomButton w={{ base: "100%", lg: '170px' }} bg="brand.primary" color="brand.white" hoverColor="brand.yellow" isLoading={isLoading} onClick={addTokens} ml={{ base: '0', lg: "20px"}}>
           Proceed
+        </CustomButton>
+        <CustomButton w={{ base: "100%", lg: '170px' }} mt={{ base: "20px", md: '0' }}  onClick={() => navigate("/profile")} ml={{ base: '0', lg: "20px"}}>
+          Later
         </CustomButton>
       </Box>
     </Box>

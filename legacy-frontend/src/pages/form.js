@@ -1,11 +1,11 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import logo from '../../src/icons/logo.svg';
+import { Box, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import TextInput from "../common/TextInput";
 import {ethers} from "ethers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toaster } from "evergreen-ui";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../navbar/navbar";
 
 const Form = () => {
   let navigate = useNavigate();
@@ -52,35 +52,15 @@ const Form = () => {
 
 
   return (
-    <Box padding="30px 80px">
-      <Flex justifyContent="space-between" alignItems="center">
-        <Flex alignItems="center" justifyContent="space-around">
-          <Link to="/">
-            <Image w="60px" src={logo} alt="logo" />
-          </Link>
-          <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
-            About us
-          </Text>
-          <Text cursor="pointer" ml="100px" _hover={{ color: "brand.primary" }}>
-            How it works
-          </Text>
-        </Flex>
-        <CustomButton
-          bg="brand.primary"
-          color="brand.white"
-          hoverColor="brand.yellow"
-        >
-          Connected
-        </CustomButton>
-      </Flex>
-
-      <Box textAlign="center" border="1px solid #7000FF" p="15px" w="40%" borderRadius="10px" margin="80px auto">
-        <Text color="brand.primary" fontSize="30px">Fill in the form<br/>below appropraitely</Text>
-        <Text color="brand.dark" fontSize="14px" mt="10px">
-            This allows your next of kin to inherits your wallets<br/>assets when you're
+    <Box padding={{ base: '10px 40px', lg: "30px 80px"}}>
+      <Navbar />
+      <Box textAlign="center" border="1px solid #7000FF" p="15px" w={{ base: '100%', lg: "40%"}} borderRadius="10px" margin="80px auto">
+        <Text color="brand.primary" fontSize={{ base: '20px', lg: "30px"}}>Fill in the form<br/>below appropraitely</Text>
+        <Text color="brand.dark" fontSize={{ base: '12px', lg: "14px"}} mt="10px">
+            This allows your next of kin to inherits your wallets assets when you're
             no more alive.
         </Text>
-        <Box m="40px auto" w="80%" fontSize="14px">
+        <Box m="40px auto" w={{ base: '90%', lg: "80%"}} fontSize="14px">
             <form>
                 <TextInput
                     label="Name"
