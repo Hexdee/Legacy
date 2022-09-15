@@ -15,12 +15,13 @@ const colors = {
       white: '#FFFFFF',
       yellow: '#F7E427',
       dark: '#040211',
+      teal: "#15F4CB"
     },
   }
 
   const fonts = {
-    heading: `'Coda', Raleway`,
-    body: `'Coda', Raleway`,
+    heading: `'Chakra Petch', k2d`,
+    body: `'Chakra Petch', k2d`,
   }
 
   const styles = {
