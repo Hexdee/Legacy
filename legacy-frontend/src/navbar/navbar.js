@@ -62,7 +62,8 @@ const Navbar = () => {
             cursor="pointer"
             ml={{ base: "0", lg: "100px" }}
             mt={{ base: "20px", lg: "0" }}
-            _hover={{ color: "brand.primary" }}
+            _hover={{ color: "brand.teal" }}
+            color="brand.white"
           >
             About us
           </Text>
@@ -70,23 +71,24 @@ const Navbar = () => {
             cursor="pointer"
             mt={{ base: "20px", lg: "0" }}
             ml={{ base: "0", lg: "100px" }}
-            _hover={{ color: "brand.primary" }}
+            _hover={{ color: "brand.teal" }}
+            color="brand.white"
           >
             How it works
           </Text>
         </Flex>
         { getUser ?
             <CustomButton
-            bg="brand.primary"
+            bg="brand.teal"
             color="brand.white"
-            hoverColor="brand.yellow"
             mt={{ base: "20px", lg: "0" }}
             d={{ base: "none", lg: "flex" }}
+            hoverColor="brand.primary"
             >
             Connected
             </CustomButton>
             :
-            <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
+            <CustomButton bg="none" border="1px solid #15F4CB" color="brand.white" hoverColor="brand.teal" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
         }
 
       </Flex>
@@ -126,7 +128,8 @@ const Navbar = () => {
               textAlign="center"
               ml={{ base: "0", lg: "100px" }}
               mt={{ base: "20px", lg: "0" }}
-              _hover={{ color: "brand.primary" }}
+              _hover={{ color: "brand.teal" }}
+              color="brand.white"
             >
               About us
             </Text>
@@ -135,7 +138,8 @@ const Navbar = () => {
               textAlign="center"
               mt={{ base: "20px", lg: "0" }}
               ml={{ base: "0", lg: "100px" }}
-              _hover={{ color: "brand.primary" }}
+              _hover={{ color: "brand.teal" }}
+              color="brand.white"
             >
               How it works
             </Text>
@@ -143,16 +147,18 @@ const Navbar = () => {
           {
             getUser ? 
             <CustomButton
-                bg="brand.primary"
+                bg="none"
                 color="brand.white"
-                hoverColor="brand.yellow"
                 mt={{ base: "20px", lg: "0" }}
                 w="100%"
+                hoverColor="brand.teal"
+                border="1px solid #15F4CB"
             >
                 Connected
             </CustomButton>
             : 
-            <CustomButton bg="brand.primary" color="brand.white" hoverColor="brand.yellow" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
+            <CustomButton bg="none" color="brand.white" hoverColor="brand.teal"
+            border="1px solid #15F4CB" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
           }
         </Flex>
       )}

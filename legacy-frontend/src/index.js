@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "@fontsource/coda";
+import "@fontsource/chakra-petch";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
