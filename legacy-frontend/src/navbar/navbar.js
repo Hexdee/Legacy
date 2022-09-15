@@ -77,6 +77,7 @@ const Navbar = () => {
             mt={{ base: "20px", lg: "0" }}
             _hover={{ color: "brand.lightPurple" }}
             color={location.pathname === '/' ? "brand.white" : location.pathname === '/demo' ? "brand.white" : "brand.primary"}
+            onClick={() => location.pathname !== '/' && navigate('/demo')}
           >
             {location.pathname !== '/' ? 'Go Home' : 'About Us'}
           </Text>
@@ -164,6 +165,8 @@ const Navbar = () => {
               mt={{ base: "20px", lg: "0" }}
               _hover={{ color: "brand.lightPurple" }}
               color={location.pathname !== '/' ? "brand.primary" : "brand.white"}
+              onClick={() => location.pathname !== '/' && navigate('/demo')}
+
             >
               {location.pathname !== '/' ? 'Go Home' : 'About Us'}
             </Text>
