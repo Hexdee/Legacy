@@ -20,7 +20,7 @@ const getUserInterval = (getUser, setLegatee, setLastSeen, setInterval) => {
               setLegatee(res[1]);
               //Convert lastSeen to minutes (just for the sake of demo)
               let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[2])) / (3600 * 24) );
-              setLastSeen(ls == 0 ? "Today" : `${ls} days ago`);
+              setLastSeen(ls === 0 ? "Today" : `${ls} days ago`);
               //Convert checkInterval to seconds (just for the sake of demo)
               const secs = Number(res[3]);
               const intervalMins = Math.floor(secs / (3600 * 24));
