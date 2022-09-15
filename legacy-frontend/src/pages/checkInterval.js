@@ -14,6 +14,7 @@ const CheckInterval = () => {
   const [legatee, setLegatee] = useState();
   const [interval, setInterval] = useState();
   const [lastSeen, setLastSeen] = useState();
+  const [allowEdit, setAllowEdit] = useState(false);
   const [checkInLoading, setCheckInLoading] = useState(false);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const CheckInterval = () => {
 
       <Box m="40px auto" w={{ base: '100%', lg: "60%"}}>
         <Text fontSize={{ base: '25px', lg: "40px"}} textAlign="center">Your Profile Page</Text>
-        <Box w={{ base: '90%', lg: "60%"}} m="40px auto">
+        <Box w={{ base: '90%', lg: "60%"}} m="40px auto" display={allowEdit ? 'none' : 'block'}>
          <TextInput
             label="Next of kin"
             value={legatee}
@@ -65,9 +66,10 @@ const CheckInterval = () => {
             label="Last seen"
             value={lastSeen}
           />
+
         </Box>
         <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="10px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" isLoading={checkInLoading} onClick={checkIn}>Check In</CustomButton>
-        <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => navigate('/get-started')}>Edit my Legacy</CustomButton>
+        <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => setAllowEdit(true)}>Edit my Legacy</CustomButton>
         <CustomButton w={{ base: '90%', lg: "60%"}} d="flex" m="30px auto" bg="brand.primary" hoverColor="brand.yellow" color="brand.white" onClick={() => navigate('/select-token')}>Add Token</CustomButton>
       </Box>
     </Box> 

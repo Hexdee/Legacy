@@ -16,6 +16,7 @@ const Navbar = () => {
   const [isConnnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+
   useEffect(() => {
     setUser(getUser);
   }, [user]);
@@ -25,6 +26,8 @@ const Navbar = () => {
   }
 
   const getUser = localStorage.getItem('legacy_user');
+
+  const getIsConnected = localStorage.getItem('isConnected');
 
   const connect = async () => {
     setIsLoading(true);
@@ -37,6 +40,7 @@ const Navbar = () => {
         localStorage.setItem('legacy_user', address);
         setUser(address);
         setIsConnected(true);
+        localStorage.setItem('isConnected', isConnnected);
         setIsLoading(false);
     } catch(error) {
         console.log(error);
@@ -103,7 +107,7 @@ const Navbar = () => {
           <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
           :
           <Box>
-          { isConnnected ?
+          { getIsConnected ?
               <CustomButton
               bg="none"
               border="1px solid #A168DA"
@@ -193,7 +197,7 @@ const Navbar = () => {
             :
           <Box>
             {
-              getUser ? 
+              getIsConnected ? 
               <CustomButton
                   bg="none"
                   color="brand.primary"
