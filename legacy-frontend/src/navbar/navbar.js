@@ -21,7 +21,7 @@ const Navbar = () => {
     setUser(getUser);
 }, [user]);
 
-  const getUser = localStorage.getItem('legacy_user')
+  const getUser = localStorage.getItem('legacy_user');
 
   const connect = async () => {
     setIsLoading(true);
@@ -66,8 +66,8 @@ const Navbar = () => {
             cursor="pointer"
             ml={{ base: "0", lg: "100px" }}
             mt={{ base: "20px", lg: "0" }}
-            _hover={{ color: "brand.teal" }}
-            color="brand.white"
+            _hover={{ color: "brand.lightPurple" }}
+            color={location.pathname === '/' ? "brand.white" : location.pathname === '/demo' ? "brand.white" : "brand.primary"}
           >
             {location.pathname !== '/' ? 'Go Home' : 'About Us'}
           </Text>
@@ -75,11 +75,24 @@ const Navbar = () => {
             cursor="pointer"
             mt={{ base: "20px", lg: "0" }}
             ml={{ base: "0", lg: "100px" }}
-            _hover={{ color: "brand.teal" }}
-            color="brand.white"
+            _hover={{ color: "brand.lightPurple" }}
+            color={location.pathname !== '/' ? "brand.primary" : "brand.white"}
+            display={location.pathname !== '/' ? 'none' : 'block'}
           >
             {location.pathname !== '/' ? '' : 'How it Works'}
           </Text>
+          {user !== null &&
+            <Text
+              cursor="pointer"
+              mt={{ base: "20px", lg: "0" }}
+              ml={{ base: "0", lg: "100px" }}
+              _hover={{ color: "brand.lightPurple" }}
+              color={location.pathname !== '/demo' ? "brand.primary" : "brand.white"}
+              onClick={() => navigate('/user-profile')}
+            >
+              {location.pathname !== '/' ? 'View Profile' : ''}
+            </Text>
+          }
         </Flex>
         {location.pathname === '/' ?
           <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
@@ -87,16 +100,17 @@ const Navbar = () => {
           <Box>
           { getUser ?
               <CustomButton
-              bg="brand.teal"
-              color="brand.white"
+              bg="none"
+              border="1px solid #A168DA"
               mt={{ base: "20px", lg: "0" }}
               d={{ base: "none", lg: "flex" }}
+              color="brand.lightPurple"
               hoverColor="brand.primary"
               >
               Connected
               </CustomButton>
               :
-              <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
+              <CustomButton bg="none" border="1px solid #A168DA" color="brand.lightPurple" hoverColor="brand.primary" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
           }
         </Box>
         }
@@ -138,8 +152,8 @@ const Navbar = () => {
               textAlign="center"
               ml={{ base: "0", lg: "100px" }}
               mt={{ base: "20px", lg: "0" }}
-              _hover={{ color: "brand.teal" }}
-              color="brand.white"
+              _hover={{ color: "brand.lightPurple" }}
+              color={location.pathname !== '/' ? "brand.primary" : "brand.white"}
             >
               {location.pathname !== '/' ? 'Go Home' : 'About Us'}
             </Text>
@@ -148,11 +162,25 @@ const Navbar = () => {
               textAlign="center"
               mt={{ base: "20px", lg: "0" }}
               ml={{ base: "0", lg: "100px" }}
-              _hover={{ color: "brand.teal" }}
-              color="brand.white"
+              _hover={{ color: "brand.lightPurple" }}
+              color={location.pathname !== '/' ? "brand.primary" : "brand.white"}
+              display={location.pathname !== '/' ? 'none' : 'block'}
             >
               {location.pathname !== '/' ? '' : 'How it Works'}
             </Text>
+            {user !== null &&
+              <Text
+                cursor="pointer"
+                textAlign="center"
+                mt={{ base: "20px", lg: "0" }}
+                ml={{ base: "0", lg: "100px" }}
+                _hover={{ color: "brand.lightPurple" }}
+                color={location.pathname !== '/demo' ? "brand.primary" : "brand.white"}
+                onClick={() => navigate('/user-profile')}
+              >
+                {location.pathname !== '/' ? 'View Profile' : ''}
+              </Text>
+            }
           </Flex>
           {location.pathname === '/' ? 
             <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "flex", lg: "none" }} w="100%" onClick={() => navigate('/demo')}>View demo</CustomButton>
@@ -162,7 +190,7 @@ const Navbar = () => {
               getUser ? 
               <CustomButton
                   bg="none"
-                  color="brand.white"
+                  color="brand.primary"
                   mt={{ base: "20px", lg: "0" }}
                   w="100%"
                   hoverColor="brand.teal"
@@ -172,7 +200,7 @@ const Navbar = () => {
               </CustomButton>
               : 
               <CustomButton bg="none" color="brand.white" hoverColor="brand.teal"
-              border="1px solid #15F4CB" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
+              border="1px solid #A168DA" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
             }
           </Box>
         }

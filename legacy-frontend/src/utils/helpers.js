@@ -1,7 +1,6 @@
 /* eslint-disable no-implied-eval */
 /* eslint-disable react-hooks/rules-of-hooks */
 import {ethers} from "ethers";
-import { toaster } from "evergreen-ui";
 
 const getUserInterval = (getUser, setLegatee, setLastSeen, setInterval) => {
         try {
@@ -15,6 +14,7 @@ const getUserInterval = (getUser, setLegatee, setLastSeen, setInterval) => {
           console.log(legacy);
           //TODO
           //Display loader
+
           legacy.legacyIndexes(getUser()).then((index) => {
             legacy.legacies(Number(index)).then((res) => {
               setLegatee(res[1]);
@@ -28,7 +28,7 @@ const getUserInterval = (getUser, setLegatee, setLastSeen, setInterval) => {
             })
           })
         } catch (error) {
-          toaster.danger('An error occured!')
+          // toaster.danger('An error occured!')
           return;
         }
 };
