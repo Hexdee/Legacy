@@ -82,7 +82,7 @@ const Navbar = () => {
           </Text>
         </Flex>
         {location.pathname === '/' ?
-          <CustomButton bg="none" border="1px solid #15F4CB" color="brand.white" hoverColor="brand.teal" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
+          <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
           :
           <Box>
           { getUser ?
@@ -96,7 +96,7 @@ const Navbar = () => {
               Connected
               </CustomButton>
               :
-              <CustomButton bg="none" border="1px solid #15F4CB" color="brand.white" hoverColor="brand.teal" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
+              <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
           }
         </Box>
         }
@@ -141,7 +141,7 @@ const Navbar = () => {
               _hover={{ color: "brand.teal" }}
               color="brand.white"
             >
-              About us
+              {location.pathname !== '/' ? 'Go Home' : 'About Us'}
             </Text>
             <Text
               cursor="pointer"
@@ -151,25 +151,31 @@ const Navbar = () => {
               _hover={{ color: "brand.teal" }}
               color="brand.white"
             >
-              How it works
+              {location.pathname !== '/' ? '' : 'How it Works'}
             </Text>
           </Flex>
-          {
-            getUser ? 
-            <CustomButton
-                bg="none"
-                color="brand.white"
-                mt={{ base: "20px", lg: "0" }}
-                w="100%"
-                hoverColor="brand.teal"
-                border="1px solid #15F4CB"
-            >
-                Connected
-            </CustomButton>
-            : 
-            <CustomButton bg="none" color="brand.white" hoverColor="brand.teal"
-            border="1px solid #15F4CB" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
-          }
+          {location.pathname === '/' ? 
+            <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "flex", lg: "none" }} w="100%" onClick={() => navigate('/demo')}>View demo</CustomButton>
+            :
+          <Box>
+            {
+              getUser ? 
+              <CustomButton
+                  bg="none"
+                  color="brand.white"
+                  mt={{ base: "20px", lg: "0" }}
+                  w="100%"
+                  hoverColor="brand.teal"
+                  border="1px solid #A168DA"
+              >
+                  Connected
+              </CustomButton>
+              : 
+              <CustomButton bg="none" color="brand.white" hoverColor="brand.teal"
+              border="1px solid #15F4CB" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
+            }
+          </Box>
+        }
         </Flex>
       )}
     </>

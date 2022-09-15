@@ -46,12 +46,12 @@ const LegacyDemo = () => {
                         </Flex>
                         <Text color="brand.white">if you DIE today?</Text>
                     </Box>
-                    <Text color="brand.teal" mt={{ base: '15px', lg: "20px"}} fontSize="1rem" w={{ base: '100%', lg: '80%' }}>
+                    <Text color="brand.grey" mt={{ base: '15px', lg: "20px"}} fontSize="1rem" w={{ base: '100%', lg: '80%' }}>
                     An alternative means of retrieving lost or possibly lost decentralised assets in cases of asset owner&#39;s death, misplacement of assets passwords, or key phrases potentially resulting in permanent loss of these decentralised assets.
                         {/* Ensure your crypto assets is secured with a trusted member of your family (automatically your next kin) */}
                     </Text>
 
-                    <CustomButton mt={{ base: '15px', lg: "30px"}} mb="20px" bg="brand.teal" color="brand.white" hoverColor="brand.primary" isLoading={getStartedLoading} onClick={handlegetstarted}>Get Started</CustomButton>
+                    <CustomButton mt={{ base: '15px', lg: "30px"}} mb="20px" bg="brand.teal" color="brand.white" hoverColor="brand.yellow" isLoading={getStartedLoading} onClick={handlegetstarted}>Get Started</CustomButton>
                 </Box>
             </Flex>
         </Box>
