@@ -1,20 +1,15 @@
-import { Box, Flex, Image, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import CustomButton from '../common/CustomButton';
 import { useEffect, useState } from 'react';
+import { toaster } from 'evergreen-ui';
 import { useNavigate } from "react-router-dom";
 import Navbar from '../navbar/navbar';
 import imgBg from "../images/bg-img.png";
-import AboutUs from './about-us';
-import sectionBg from "../images/sections-bg.png";
-import metamask from "../assets/icons/meta-mask.webp";
-import eth from "../assets/icons/eth.svg";
-import pera from "../assets/icons/pera-logo-black.png";
-import trust from "../assets/icons/trust-w.png";
-import bitcoin from "../assets/icons/bitcoin.webp";
 
-const Home = () => {
+const LegacyDemo = () => {
     let navigate = useNavigate();
     const [user, setUser] = useState("");
+    const [getStartedLoading, setGetStartedLoading] = useState(false);
     useEffect(() => {
         setUser(getUser);
     }, [user]);
@@ -23,6 +18,19 @@ const Home = () => {
         return localStorage.getItem('legacy_user')
     }
     
+    const handlegetstarted = () => {
+        setGetStartedLoading(true);
+        if (getUser()) {
+            navigate('/get-started')
+            setGetStartedLoading(false);
+        }
+        else {
+            toaster.danger('Please connect wallet first!', {
+                duration: 10
+            });
+            setGetStartedLoading(false);
+        }
+    }
     return (
         <>
         <Box padding={{ base: '10px 40px', lg: "30px 80px"}} backgroundImage={imgBg} backgroundRepeat="no-repeat" backgroundSize="cover" h={{ base: '', lg: "100vh"}}>
@@ -43,26 +51,12 @@ const Home = () => {
                         {/* Ensure your crypto assets is secured with a trusted member of your family (automatically your next kin) */}
                     </Text>
 
-                    <CustomButton mt={{ base: '15px', lg: "30px"}} mb="20px" bg="brand.teal" color="brand.white" hoverColor="brand.primary" onClick={() => navigate('/demo')}>View Demo</CustomButton>
+                    <CustomButton mt={{ base: '15px', lg: "30px"}} mb="20px" bg="brand.teal" color="brand.white" hoverColor="brand.primary" isLoading={getStartedLoading} onClick={handlegetstarted}>Get Started</CustomButton>
                 </Box>
             </Flex>
         </Box>
-        <main>
-            <Box bgColor="brand.white">
-                <SimpleGrid columns={5} spacing={10} w="80%" d="flex" alignItems="center" m="15px auto">
-                    <Image src={metamask} alt="meta-mask-logo" />
-                    <Image src={bitcoin} alt="bitcoin-logo" />
-                    <Image src={trust} alt="trust-logo" />
-                    <Image src={pera} alt="pera-logo" />
-                    <Image src={eth} alt="eth-logo" />
-                </SimpleGrid>
-            </Box>
-            <Box backgroundImage={sectionBg} backgroundRepeat="no-repeat" backgroundSize="cover" backgroundPosition="center">
-                <AboutUs />
-            </Box>
-        </main>
         </>
     )
 };
 
-export default Home;
+export default LegacyDemo;

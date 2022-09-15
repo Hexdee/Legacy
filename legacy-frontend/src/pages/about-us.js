@@ -36,7 +36,7 @@ const AboutUs = () => {
             <Box fontSize={{ base: '20px', lg: '55px' }} fontWeight="700" color="brand.white" textAlign="center">
                 <h1>Mission, Vision and Values</h1>
             </Box>
-            <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={14} mt="20px">
+            <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={14} mt="50px">
                 <Box bg="brand.teal" borderRadius="8px" p="15px 20px" color="brand.primary">
                     <Flex alignItems="center">
                         <Box mr="20px">{mission}</Box>

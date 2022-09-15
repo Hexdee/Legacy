@@ -1,6 +1,7 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../../src/assets/icons/logo.svg";
 import { close, hamburger } from "../assets/svgs/svg";
@@ -8,8 +9,11 @@ import CustomButton from "../common/CustomButton";
 import { toaster } from "evergreen-ui";
 
 const Navbar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [openNavBar, setOpenNavBar] = useState(false);
   const [user, setUser] = useState("");
+  
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +21,7 @@ const Navbar = () => {
     setUser(getUser);
 }, [user]);
 
-    const getUser = localStorage.getItem('legacy_user')
+  const getUser = localStorage.getItem('legacy_user')
 
   const connect = async () => {
     setIsLoading(true);
@@ -65,7 +69,7 @@ const Navbar = () => {
             _hover={{ color: "brand.teal" }}
             color="brand.white"
           >
-            About us
+            {location.pathname !== '/' ? 'Go Home' : 'About Us'}
           </Text>
           <Text
             cursor="pointer"
@@ -74,21 +78,27 @@ const Navbar = () => {
             _hover={{ color: "brand.teal" }}
             color="brand.white"
           >
-            How it works
+            {location.pathname !== '/' ? '' : 'How it Works'}
           </Text>
         </Flex>
-        { getUser ?
-            <CustomButton
-            bg="brand.teal"
-            color="brand.white"
-            mt={{ base: "20px", lg: "0" }}
-            d={{ base: "none", lg: "flex" }}
-            hoverColor="brand.primary"
-            >
-            Connected
-            </CustomButton>
-            :
-            <CustomButton bg="none" border="1px solid #15F4CB" color="brand.white" hoverColor="brand.teal" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
+        {location.pathname === '/' ?
+          <CustomButton bg="none" border="1px solid #15F4CB" color="brand.white" hoverColor="brand.teal" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
+          :
+          <Box>
+          { getUser ?
+              <CustomButton
+              bg="brand.teal"
+              color="brand.white"
+              mt={{ base: "20px", lg: "0" }}
+              d={{ base: "none", lg: "flex" }}
+              hoverColor="brand.primary"
+              >
+              Connected
+              </CustomButton>
+              :
+              <CustomButton bg="none" border="1px solid #15F4CB" color="brand.white" hoverColor="brand.teal" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
+          }
+        </Box>
         }
 
       </Flex>
