@@ -39,7 +39,7 @@ const Form = () => {
       setCreateLoading(false);
       return;
     }
-    navigate('select-token');
+    navigate('/select-token');
   }
 
   const handleLegateeChange = (event) => {

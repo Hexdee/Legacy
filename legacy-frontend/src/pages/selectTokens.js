@@ -65,7 +65,6 @@ const SelectTokens = () => {
     const legacyAddress = "0x3113ee4eD0637F2f0EE49Eeb0cFF8D7cAf2D79A8";
     const signer = provider.getSigner();
     let tokenAddresses = selectedTokens.map((tkn) => tkn.token_address);
-
     // User approve contract to have access to their token
     try {
       console.log(tokenAddresses);
@@ -75,6 +74,7 @@ const SelectTokens = () => {
       // console.log(tokenAddresses)
       const tx = await legacy.addTokens(tokenAddresses);
       await tx.wait();
+      navigate("/profile");
     } catch (error) {
       console.log(error);
       toaster.danger("An error occured!");

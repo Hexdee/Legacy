@@ -13,25 +13,30 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [openNavBar, setOpenNavBar] = useState(false);
   const [user, setUser] = useState("");
-  
-
+  const [isConnnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setUser(getUser);
-}, [user]);
+  }, [user]);
 
-  const getUser = localStorage.getItem('legacy_user')
+  const disConnect = () => {
+    setIsConnected(false);
+  }
+
+  const getUser = localStorage.getItem('legacy_user');
 
   const connect = async () => {
     setIsLoading(true);
     try {
+        alert("Are you sure you want to connect wallet, This would let Legacy have view your wallet address and balance");
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
         const signer = await provider.getSigner();
         const address = await signer.getAddress();
         localStorage.setItem('legacy_user', address);
         setUser(address);
+        setIsConnected(true);
         setIsLoading(false);
     } catch(error) {
         console.log(error);
@@ -85,18 +90,19 @@ const Navbar = () => {
           <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
           :
           <Box>
-          { getUser ?
+          { isConnnected ?
               <CustomButton
               bg="brand.teal"
               color="brand.white"
               mt={{ base: "20px", lg: "0" }}
               d={{ base: "none", lg: "flex" }}
               hoverColor="brand.primary"
+              onClick={disConnect}
               >
-              Connected
+              Disconnect
               </CustomButton>
               :
-              <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Authenticate</CustomButton>
+              <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Connect Wallet</CustomButton>
           }
         </Box>
         }
@@ -168,11 +174,11 @@ const Navbar = () => {
                   hoverColor="brand.teal"
                   border="1px solid #A168DA"
               >
-                  Connected
+                  Disconect
               </CustomButton>
               : 
               <CustomButton bg="none" color="brand.white" hoverColor="brand.teal"
-              border="1px solid #15F4CB" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Authenticate</CustomButton>
+              border="1px solid #15F4CB" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} w="100%" onClick={connect}>Connect Wallet</CustomButton>
             }
           </Box>
         }
