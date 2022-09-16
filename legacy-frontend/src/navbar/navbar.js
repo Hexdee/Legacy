@@ -21,9 +21,10 @@ const Navbar = () => {
     setUser(getUser);
   }, [user]);
 
-  const disConnect = () => {
-    setIsConnected(false);
-  }
+  // const disConnect = () => {
+  //   localStorage.setItem('isConnected', false);
+  //   setIsConnected(false);
+  // }
 
   const getUser = localStorage.getItem('legacy_user');
 
@@ -39,8 +40,8 @@ const Navbar = () => {
         const address = await signer.getAddress();
         localStorage.setItem('legacy_user', address);
         setUser(address);
-        setIsConnected(true);
-        localStorage.setItem('isConnected', isConnnected);
+        // setIsConnected(!isConnnected);
+        // localStorage.setItem('isConnected', true);
         setIsLoading(false);
     } catch(error) {
         console.log(error);
@@ -108,7 +109,7 @@ const Navbar = () => {
           <CustomButton bg="none" border="1px solid #A168DA" color="brand.white" hoverColor="brand.lightPurple" mt={{ base: "20px", lg: "0" }} d={{ base: "none", lg: "flex" }} onClick={() => navigate('/demo')}>View demo</CustomButton>
           :
           <Box>
-          { getIsConnected ?
+          {/* { isConnnected ?
               <CustomButton
               bg="none"
               border="1px solid #A168DA"
@@ -120,9 +121,9 @@ const Navbar = () => {
               >
               Disconnect
               </CustomButton>
-              :
+              : */}
               <CustomButton bg="none" border="1px solid #A168DA" color="brand.lightPurple" hoverColor="brand.primary" mt={{ base: "20px", lg: "0" }} isLoading={isLoading} d={{ base: "none", lg: "flex" }} onClick={connect}>Connect Wallet</CustomButton>
-          }
+          {/* } */}
         </Box>
         }
 
