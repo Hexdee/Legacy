@@ -1,23 +1,29 @@
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
-require("dotenv").config()
+require("dotenv").config();
  
 module.exports = {
-  solidity: "0.8.6",
-  paths: {
-    artifacts: './src/artifacts',
-  },
-  defaultNetwork: "fuji",
+  defaultNetwork: "mumbai",
   networks: {
     hardhat: {
     },
-    fuji: {
-      url: process.env.QUICKNODE_URL,
-      accounts: [`0x` + process.env.PRIVATE_KEY],
-      chainId: 43113,
-    },
+    mumbai: {
+      url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.APP_ID}`,
+      accounts: [process.env.PRIVATE_KEY]
+    }
   },
   etherscan: {
-    apiKey: process.env.API_KEY
-  }
+  apiKey: {
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY
+    }
+  },
+  solidity: {
+    version: "0.8.6",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
 }

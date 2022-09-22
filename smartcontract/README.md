@@ -1,5 +1,5 @@
 # Legacy smart contract
-View verified contract on [snowtrace](https://testnet.snowtrace.io/address/0xb6276F6892873d4577E1524f7EB195b118D11334#code)
+View verified contract on [polygonscan](https://mumbai.polygonscan.com/address/0x4F804193D663d443A16b92c8D9170AB85eA4BC9b#code)
 
 ### Compile
 ```bash
@@ -11,7 +11,7 @@ npx hardhat compile
 npx hardhat run script/deploy.js --network hardhat
 ```
 
-### Deploy to AVAX Fuji testnet
+### Deploy to Polygon mumbai testnet
 ```bash
 npx hardhat run script/deploy.js
 ```
