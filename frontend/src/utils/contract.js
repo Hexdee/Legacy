@@ -1,4 +1,4 @@
-export const legacyAddress = "0xb6276F6892873d4577E1524f7EB195b118D11334"
+export const legacyAddress = "0x4F804193D663d443A16b92c8D9170AB85eA4BC9b"
 
 export const legacyAbi = [
     "function legacies(uint256) view returns (address, address, uint256, uint256, bool)",

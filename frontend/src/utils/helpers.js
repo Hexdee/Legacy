@@ -53,7 +53,7 @@ export async function connect() {
       // check if the chain to connect to is installed
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0xA869' }], // chainId must be in hexadecimal numbers
+        params: [{ chainId: '0x13881' }], // chainId must be in hexadecimal numbers
       });
     } catch (error) {
       // This error code indicates that the chain has not been added to MetaMask
@@ -64,15 +64,15 @@ export async function connect() {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0xA869',
-                chainName: 'Avalanche Fuji testnet',
+                chainId: '0x13881',
+                chainName: 'Polygon mumbai testnet',
                 nativeCurrency: {
-                  name: 'Avalanche Token',
-                  symbol: 'AVAX', // 2-6 characters long
+                  name: 'Polygon Token',
+                  symbol: 'MATIC', // 2-6 characters long
                   decimals: 18
                 },
-                blockExplorerUrls: ['https://testnet.snowtrace.io'],
-                rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
+                blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+                rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
               },
             ],
           });
@@ -86,7 +86,7 @@ export async function connect() {
         toaster.danger('failed to switch network to AVAX Fuji testnet')
         return;
       }
-    }
+    } finally {
       if(window.confirm("Are you sure you want to connect your wallet. This would let Legacy see your wallet address and account balance")) {
         const accounts = await window.ethereum
           .request({ method: 'eth_requestAccounts' })
@@ -94,6 +94,7 @@ export async function connect() {
           return accounts[0];
       }
     }
+  }
 }
 
 
